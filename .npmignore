@@ -1,7 +1,11 @@
 .DS_Store
-node_modules
+/node_modules
 /dist
+/src
+.babelrc
+.eslintrc.js
 package-lock.json
+webpack.config.js
 
 # local env files
 .env.local
