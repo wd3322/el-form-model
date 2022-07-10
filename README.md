@@ -1,14 +1,19 @@
 # vue element form to json
-![el-form-model](https://github.com/wd3322/sampleResources/blob/master/el-form-model/demo.png)
+
+**Git地址**
+
+[Github](https://github.com/wd3322/el-form-model)
+
+[Gitee](https://gitee.com/wd3322/el-form-model)
+
+![el-form-model](https://wd3322.github.io/to-vue3/img/el-form-model/form-demo.png)
 
 ## 行内
-![inline](https://github.com/wd3322/sampleResources/blob/master/el-form-model/inline.gif)
-
+![inline](https://wd3322.github.io/to-vue3/img/el-form-model/form-inline.gif)
 ## 布局
-![layout](https://github.com/wd3322/sampleResources/blob/master/el-form-model/layout.png)
-
+![layout](https://wd3322.github.io/to-vue3/img/el-form-model/form-layout.png)
 ## 分组
-![group](https://github.com/wd3322/sampleResources/blob/master/el-form-model/group.gif)
+![group](https://wd3322.github.io/to-vue3/img/el-form-model/form-group.gif)
 
 ## 下载
 ```
