@@ -99,7 +99,7 @@
             display: inline-flex;
             &.not-label {
               justify-content: flex-end;
-              /deep/ .el-form-item__content {
+              .el-form-item__content {
                 margin-left: 0 !important;
               }
             }
@@ -110,7 +110,7 @@
         width: 100%;
       }
       .button {
-        /deep/ .el-form-item__content {
+        .el-form-item__content {
           margin-left: 0 !important;
           text-align: center;
         }
