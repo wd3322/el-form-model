@@ -1,26 +1,22 @@
 {
   "name": "el-form-model",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "vue element form to json",
-  "main": "dist/main.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/wd3322/el-form-model"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --hot  --inline",
     "build": "webpack --display-error-details --config webpack.config.js"
   },
   "keywords": [
-    "element",
-    "form",
-    "model",
-    "object"
+    "vue element form to json",
+    "vue element form to object"
   ],
   "author": "wd",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "core-js": "^3.16.0",
     "css-loader": "^0.28.11",
     "node-sass": "^4.14.1",
@@ -29,13 +25,14 @@
     "url-loader": "^0.6.2",
     "vue": "^2.6.14",
     "vue-loader": "^13.7.3",
-    "vue-template-compiler": "^2.6.14",
-    "webpack": "^3.12.0",
-    "webpack-dev-server": "^2.11.5"
+    "vue-template-compiler": "^2.6.14"
   },
-  "dependencies": {
+  "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
-    "babel-loader": "^8.2.2"
+    "babel-loader": "^8.2.2",
+    "webpack": "^3.12.0",
+    "webpack-dev-server": "^2.11.5",
+    "extract-text-webpack-plugin": "^3.0.2"
   }
 }

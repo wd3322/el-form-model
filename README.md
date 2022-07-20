@@ -27,6 +27,8 @@ npm install el-form-model
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import ElFormModel from 'el-form-model'
+import 'element-ui/lib/theme-chalk/index.css'
+import 'el-form-model/lib/index.css'
 
 Vue.use(ElementUI)
 Vue.use(ElFormModel)

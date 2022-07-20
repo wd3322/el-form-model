@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'options',
+  name: 'ElFormModelOptions',
   props: {
     item: {
       type: Object,
@@ -31,6 +31,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

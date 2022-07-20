@@ -1,13 +1,14 @@
 const path = require('path')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
  
 module.exports = {
   devtool: 'source-map',
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'main.js',
+    path: path.resolve(__dirname, './lib'),
+    publicPath: '/lib/',
+    filename: 'index.js',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
@@ -16,23 +17,15 @@ module.exports = {
       test: /\.vue$/,
       loader: 'vue-loader'
     }, {
-      test: /\.scss$/,
-      use: [
-        { loader: 'style-loader' },
-        { loader: 'css-loader' },
-        { loader: 'sass-loader' }
-      ]
-    }, {
       test: /\.js$/,
       exclude: /node_modules|vue\/dist|vue-router\/|vue-loader\/|vue-hot-reload-api\//,
       loader: 'babel-loader'
     }, {
-      test: /\.(png|jpg|gif|ttf|svg|woff|eot)$/,
-      loader: 'url-loader',
-      query: {
-        limit: 30000,
-        name: '[name].[ext]?[hash]'
-      }
+      test: /\.scss$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'sass-loader']
+      })
     }]
   },
   plugins: [
@@ -40,6 +33,10 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
+    }),
+    new ExtractTextPlugin({
+      filename: 'index.css',
+      allChunks: true
     })
   ]
 }

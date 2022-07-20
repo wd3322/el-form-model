@@ -82,7 +82,7 @@
             v-on="item.events"
           >
             <template v-if="['select', 'radio', 'checkbox'].includes(item.type) && item.options && item.id">
-              <options :item="item">
+              <el-form-model-options :item="item">
                 <template v-slot="{ option }">
                   <span v-if="option.type === 'slot'">
                     <slot 
@@ -93,7 +93,7 @@
                   </span>
                   <span v-else>{{ option.label }}</span>
                 </template>
-              </options>
+              </el-form-model-options>
             </template>
           </component>
         </div>
@@ -142,7 +142,7 @@
           v-on="item.events"
         >
           <template v-if="['select', 'radio', 'checkbox'].includes(item.type) && item.options && item.id">
-            <options :item="item">
+            <el-form-model-options :item="item">
               <template v-slot="{ option }">
                 <span v-if="option.type === 'slot'">
                   <slot 
@@ -153,7 +153,7 @@
                 </span>
                 <span v-else>{{ option.label }}</span>
               </template>
-            </options>
+            </el-form-model-options>
           </template>
         </component>
  
@@ -196,12 +196,12 @@
 
 <script>
 import $utils from './utils.js'
-import options from './components/options.vue'
+import ElFormModelOptions from './components/ElFormModelOptions.vue'
 
 export default {
   name: 'ElFormModel',
   components: {
-    options
+    ElFormModelOptions
   },
   props: {
     data: {
@@ -446,126 +446,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.form-model-wrap {
-  .el-form {
-    .el-radio, .el-checkbox {
-      margin-right: 20px;
-    }
-    &.el-form--label-top {
-      margin: 0 -10px;
-      > .el-form-item {
-        display: inline-flex;
-        flex-direction: column;
-        /deep/ .el-form-item__label {
-          line-height: 20px;
-        }
-      }
-    }
-    &.inline {
-      display: flex;
-      flex-wrap: wrap;
-      > .el-form-item {
-        margin-right: 20px;
-        .el-checkbox-group {
-          display: inline-block;
-          line-height: 1;
-          vertical-align: middle;
-        }
-        .el-rate {
-          display: inline-block;
-          line-height: 1;
-          vertical-align: middle;
-          margin-top: 0;
-        }
-        .el-color-picker {
-          vertical-align: middle;
-        }
-        .input-with-dropdown {
-          .el-dropdown {
-            padding-right: 5px;
-            cursor: pointer;
-          }
-          .el-input {
-            width: auto;
-            min-width: 200px;
-          }
-        }
-        &.is-required {
-          .input-with-dropdown {
-            .el-dropdown {
-              .el-dropdown-link {
-                &::before {
-                  content: '*';
-                  color: #F56C6C;
-                  margin-right: 4px;
-                }
-              }
-            }
-          }
-        }
-      }
-      &.el-form--label-top {
-        > .el-form-item {
-          justify-content: flex-end;
-          .input-with-dropdown {
-            display: inline-flex;
-            justify-content: flex-end;
-            flex-direction: column;
-          }
-        }
-      }
-      .body-between {
-        margin-right: 20px;
-        margin-bottom: 20px;
-      }
-    }
-    &.block {
-      display: flex;
-      flex-wrap: wrap;
-      > .el-form-item {
-        width: 100%;
-        .el-select, .el-cascader, .el-autocomplete, .el-color-picker {
-          display: block;
-        }
-        .el-date-editor {
-          width: 100%;
-        }
-        .el-rate {
-          line-height: normal;
-          margin-top: 10px;
-          vertical-align: middle;
-        }
-        &.inline-block {
-          display: inline-block;
-        }
-      }
-      &.el-form--label-top {
-        > .el-form-item {
-          box-sizing: border-box;
-          padding: 0 10px;
-          &.inline-block {
-            display: inline-flex;
-            &.not-label {
-              justify-content: flex-end;
-              /deep/ .el-form-item__content {
-                margin-left: 0 !important;
-              }
-            }
-          }
-        }
-      }
-      .body-between {
-        width: 100%;
-      }
-      .button {
-        /deep/ .el-form-item__content {
-          margin-left: 0 !important;
-          text-align: center;
-        }
-      }
-    }
-  }
-}
-</style>
