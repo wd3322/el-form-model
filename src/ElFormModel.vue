@@ -19,41 +19,100 @@
         :style="{ width: !$attrs.inline ? item.width : null }"
         v-bind="getAttrs('form-item', item)"
       >
- 
-        <!-- slot type -->
-        <template v-if="item.type === 'slot'">
-          <slot 
-            :name="item.prop"
-            :item="item"
-            :index="index"
-            :formRef="formRef"
-          />
-        </template>
- 
-        <!-- label multiple -->
-        <div
-          v-else-if="item.labelMultiple"
-          class="input-with-dropdown"
-        >
-          <el-dropdown 
-            placement="bottom-start"
-            @command="onDropdown($event, item.id, item)"
+
+        <div @mousedown="onActiveItemChange(item, index)">
+  
+          <!-- slot type -->
+          <template v-if="item.type === 'slot'">
+            <slot 
+              :name="item.prop"
+              :item="item"
+              :index="index"
+              :formRef="formRef"
+            />
+          </template>
+  
+          <!-- label multiple -->
+          <div
+            v-else-if="item.labelMultiple"
+            class="input-with-dropdown"
           >
-            <span class="el-dropdown-link">
-              {{ item.labels[note[item.id] || 0] }}
-              <i class="el-icon-arrow-down el-icon--right" />
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item
-                v-for="(prop, index) in item.props"
-                :key="item.type + prop + index"
-                :command="index"
-              >
-                {{ item.labels[index] }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+            <el-dropdown 
+              placement="bottom-start"
+              @command="onDropdownLabel($event, item.id, item)"
+            >
+              <span class="el-dropdown-link">
+                {{ item.labels[note[item.id] || 0] }}
+                <i class="el-icon-arrow-down el-icon--right" />
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="(prop, index) in item.props"
+                  :key="item.type + prop + index"
+                  :command="index"
+                >
+                  {{ item.labels[index] }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <component
+              :is="{
+                input: 'el-input',
+                number: 'el-input',
+                password: 'el-input',
+                tel: 'el-input',
+                email: 'el-input',
+                url: 'el-input',
+                search: 'el-input',
+                autocomplete: 'el-autocomplete',
+                count: 'el-input-number',
+                select: 'el-select',
+                time: 'el-time-picker',
+                date: 'el-date-picker',
+                dates: 'el-date-picker',
+                datetime: 'el-date-picker',
+                month: 'el-date-picker',
+                year: 'el-date-picker',
+                radio: 'el-radio-group',
+                checkbox: 'el-checkbox-group',
+                switch: 'el-switch',
+                rate: 'el-rate',
+                color: 'el-color-picker'
+              }[item.type]"
+              v-model.trim="getFrom(item)[item.props[note[item.id] || 0]]"
+              v-bind="getAttrs('single-result-component-item', item)"
+              v-on="item.events"
+            >
+              <template v-if="['select', 'radio', 'checkbox'].includes(item.type) && item.options && item.id">
+                <el-form-model-options :item="item">
+                  <template v-slot="{ option }">
+                    <span v-if="option.type === 'slot'">
+                      <slot 
+                        :name="option.label"
+                        :label="option.label"
+                        :value="option.value"
+                      />
+                    </span>
+                    <span v-else>{{ option.label }}</span>
+                  </template>
+                </el-form-model-options>
+              </template>
+            </component>
+          </div>
+  
+          <!-- multiple-result-component-item -->
           <component
+            v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
+            :is="'el-date-picker'"
+            v-model="note[item.id]"
+            v-bind="getAttrs('multiple-result-component-item', item)"
+            v-on="item.events"
+            @change="onChangeProps($event, item)"
+          />
+  
+          <!-- single-result-component-item -->
+          <component
+            v-else
             :is="{
               input: 'el-input',
               number: 'el-input',
@@ -62,9 +121,11 @@
               email: 'el-input',
               url: 'el-input',
               search: 'el-input',
+              textarea: 'el-input',
               autocomplete: 'el-autocomplete',
               count: 'el-input-number',
               select: 'el-select',
+              cascader: 'el-cascader',
               time: 'el-time-picker',
               date: 'el-date-picker',
               dates: 'el-date-picker',
@@ -74,10 +135,11 @@
               radio: 'el-radio-group',
               checkbox: 'el-checkbox-group',
               switch: 'el-switch',
+              slider: 'el-slider',
               rate: 'el-rate',
               color: 'el-color-picker'
             }[item.type]"
-            v-model.trim="getFrom(item)[item.props[note[item.id] || 0]]"
+            v-model.trim="getFrom(item)[item.prop]"
             v-bind="getAttrs('single-result-component-item', item)"
             v-on="item.events"
           >
@@ -96,66 +158,8 @@
               </el-form-model-options>
             </template>
           </component>
+
         </div>
- 
-        <!-- multiple-result-component-item -->
-        <component
-          v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
-          :is="'el-date-picker'"
-          v-model="note[item.id]"
-          v-bind="getAttrs('multiple-result-component-item', item)"
-          v-on="item.events"
-          @change="onChangeProps($event, item)"
-        />
- 
-        <!-- single-result-component-item -->
-        <component
-          v-else
-          :is="{
-            input: 'el-input',
-            number: 'el-input',
-            password: 'el-input',
-            tel: 'el-input',
-            email: 'el-input',
-            url: 'el-input',
-            search: 'el-input',
-            textarea: 'el-input',
-            autocomplete: 'el-autocomplete',
-            count: 'el-input-number',
-            select: 'el-select',
-            cascader: 'el-cascader',
-            time: 'el-time-picker',
-            date: 'el-date-picker',
-            dates: 'el-date-picker',
-            datetime: 'el-date-picker',
-            month: 'el-date-picker',
-            year: 'el-date-picker',
-            radio: 'el-radio-group',
-            checkbox: 'el-checkbox-group',
-            switch: 'el-switch',
-            slider: 'el-slider',
-            rate: 'el-rate',
-            color: 'el-color-picker'
-          }[item.type]"
-          v-model.trim="getFrom(item)[item.prop]"
-          v-bind="getAttrs('single-result-component-item', item)"
-          v-on="item.events"
-        >
-          <template v-if="['select', 'radio', 'checkbox'].includes(item.type) && item.options && item.id">
-            <el-form-model-options :item="item">
-              <template v-slot="{ option }">
-                <span v-if="option.type === 'slot'">
-                  <slot 
-                    :name="option.label"
-                    :label="option.label"
-                    :value="option.value"
-                  />
-                </span>
-                <span v-else>{{ option.label }}</span>
-              </template>
-            </el-form-model-options>
-          </template>
-        </component>
  
       </el-form-item>
 
@@ -223,7 +227,8 @@ export default {
     return {
       note: {},
       groups: [],
-      formRef: {}
+      formRef: {},
+      activeItem: {}
     }
   },
   computed: {
@@ -424,7 +429,13 @@ export default {
         group.rowNumber--
       }
     },
-    onDropdown(val, key, item) {
+    onActiveItemChange(item, index) {
+      if (item.id !== this.activeItem.id) {
+        this.activeItem = item
+        this.$emit('active-item-change', item, index)
+      }
+    },
+    onDropdownLabel(val, key, item) {
       item.prop = item.props[val]
       this.$set(this.note, key, val)
       for (const prop of item.props) {

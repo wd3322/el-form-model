@@ -231,6 +231,34 @@ export default {
 }
 ```
 
+### 组件-事件
+可通过 `active-item-change` 事件获取当前激活的表单子项
+
+```html
+<template>
+  <el-form-model
+    ref="myForm"
+    :data="data"
+    :items="items"
+    @active-item-change="onActiveItemChange"
+  />
+</template>
+```
+
+```javascript
+export default {
+  methods: {
+    onActiveItemChange(item, index) {
+      console.log('onActiveItemChange', item, index)
+    }
+  }
+}
+```
+
+| Prop                | Prop Type   | Type        | Required |
+| :-------            | :-------    | :-------    | :------  |
+| active-item-change  | Event       | Function    | False    |
+
 # 数据
 
 ### 数据-默认值、类型
