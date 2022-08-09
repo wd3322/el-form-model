@@ -2,6 +2,13 @@
   .el-form {
     .el-radio, .el-checkbox {
       margin-right: 20px;
+      &.is-bordered {
+        margin-left: 0;
+        margin-right: 15px;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
     }
     &.el-form--label-top {
       margin: 0 -10px;
