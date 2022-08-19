@@ -284,7 +284,11 @@ export default {
         }
       } else if (type === 'multiple-result-component-item') {
         result = {
-          ...(this.defaultAttrs.component[item.type] || {}),
+          ...(
+            typeof this.defaultAttrs.component.formItem === 'function'
+            ? this.defaultAttrs.component.formItem(item)
+            : {}
+          ),
           ...item
         }
         this.clearAttrs(result)
@@ -310,7 +314,11 @@ export default {
         }
         result = {
           ...result,
-          ...(this.defaultAttrs.component[item.type] || {}),
+          ...(
+            typeof this.defaultAttrs.component.formItem === 'function'
+            ? this.defaultAttrs.component.formItem(item)
+            : {}
+          ),
           ...item
         }
         this.clearAttrs(result, appendProps, excludeProps)

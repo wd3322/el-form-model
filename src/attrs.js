@@ -72,53 +72,42 @@ const attrs = {
   },
   component: {
     form: {},
-    input: {
-      clearable: true
-    },
-    autocomplete: {
-      clearable: true
-    },
-    select: {
-      clearable: true
-    },
-    cascader: {},
-    date: {},
-    dates: {},
-    datetime: {},
-    month: {},
-    year: {},
-    daterange: {
-      unlinkPanels: true,
-      rangeSeparator: '至',
-      startPlaceholder: '开始日期',
-      endPlaceholder: '结束日期',
-      defaultTime: ['00:00:00', '23:59:59'],
-      daterange: dateRangeOptions
-    },
-    datetimerange: {
-      unlinkPanels: true,
-      rangeSeparator: '至',
-      startPlaceholder: '开始时间',
-      endPlaceholder: '结束时间',
-      defaultTime: ['00:00:00', '23:59:59'],
-      datetimerange: dateRangeOptions
-    },
-    monthrange: {
-      unlinkPanels: true,
-      rangeSeparator: '至',
-      startPlaceholder: '开始月份',
-      endPlaceholder: '结束月份',
-      defaultTime: ['00:00:00', '23:59:59'],
-      monthrange: monthRangeOptions
-    },
-    time: {},
-    radio: {},
-    checkbox: {},
-    count: {},
-    switch: {},
-    slider: {},
-    rate: {},
-    color: {}
+    formItem(item) {
+      if (['input', 'autocomplete', 'select'].includes(item.type)) {
+        return {
+          clearable: true
+        }
+      } else if (item.type === 'daterange') {
+        return {
+          unlinkPanels: true,
+          rangeSeparator: '至',
+          startPlaceholder: '开始日期',
+          endPlaceholder: '结束日期',
+          defaultTime: ['00:00:00', '23:59:59'],
+          daterange: dateRangeOptions
+        }
+      } else if (item.type === 'datetimerange') {
+        return {
+          unlinkPanels: true,
+          rangeSeparator: '至',
+          startPlaceholder: '开始时间',
+          endPlaceholder: '结束时间',
+          defaultTime: ['00:00:00', '23:59:59'],
+          datetimerange: dateRangeOptions
+        }
+      } else if (item.type === 'monthrange') {
+        return {
+          unlinkPanels: true,
+          rangeSeparator: '至',
+          startPlaceholder: '开始月份',
+          endPlaceholder: '结束月份',
+          defaultTime: ['00:00:00', '23:59:59'],
+          monthrange: monthRangeOptions
+        }
+      } else {
+        return {}
+      }
+    }
   }
 }
 
