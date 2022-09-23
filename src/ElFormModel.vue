@@ -79,7 +79,7 @@
                 rate: 'el-rate',
                 color: 'el-color-picker'
               }[item.type]"
-              v-model.trim="getFrom(item)[item.props[note[item.id] || 0]]"
+              v-model="getFrom(item)[item.props[note[item.id] || 0]]"
               v-bind="getAttrs('single-result-component-item', item)"
               v-on="item.events"
             >
@@ -139,7 +139,7 @@
               rate: 'el-rate',
               color: 'el-color-picker'
             }[item.type]"
-            v-model.trim="getFrom(item)[item.prop]"
+            v-model="getFrom(item)[item.prop]"
             v-bind="getAttrs('single-result-component-item', item)"
             v-on="item.events"
           >
