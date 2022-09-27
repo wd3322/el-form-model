@@ -334,6 +334,7 @@ export default {
       }
     },
     setParams() {
+      console.log('set params')
       this.groups = this.items.filter(item => item.type === 'group')
       for (const item of this.items) { 
         // set item info
@@ -411,7 +412,7 @@ export default {
           }
         }
         if (group.hasOwnProperty('hidden')) {
-          const children = this.items.filter(item => item.group === group.prop)
+          const children = this.items.filter(item => item.group === group.prop && item.hidden !== group.hidden)
           for (const item of children) {
             this.$set(item, 'hidden', group.hidden)
           }
