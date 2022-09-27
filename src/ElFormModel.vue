@@ -410,6 +410,12 @@ export default {
             this.onDelGroup(group.prop, i)
           }
         }
+        if (group.hasOwnProperty('hidden')) {
+          const children = this.items.filter(item => item.group === group.prop)
+          for (const item of children) {
+            this.$set(item, 'hidden', group.hidden)
+          }
+        }
       }
     },
     onAddGroup(prop, index) {
