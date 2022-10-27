@@ -334,7 +334,6 @@ export default {
       }
     },
     setParams() {
-      console.log('set params')
       this.groups = this.items.filter(item => item.type === 'group')
       for (const item of this.items) { 
         // set item info
