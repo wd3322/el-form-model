@@ -6,7 +6,7 @@
         radio: 'el-radio',
         checkbox: 'el-checkbox'
       }[item.type]"
-      v-for="(option, optionsIndex) in item.options"
+      v-for="(option, optionsIndex) in item.options.filter(item => !item.hidden)"
       :key="item.id + option.value + optionsIndex"
       v-bind="{
         ...option,
