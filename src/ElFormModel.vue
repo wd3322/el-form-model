@@ -413,7 +413,7 @@ export default {
         if (group.hasOwnProperty('hidden')) {
           const children = this.items.filter(item => item.group === group.prop && item.hidden !== group.hidden)
           for (const item of children) {
-            this.$set(item, 'hidden', group.hidden)
+            this.$set(item, 'hidden', group.hidden || item.hidden)
           }
         }
       }
