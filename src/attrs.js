@@ -84,7 +84,7 @@ const attrs = {
           startPlaceholder: '开始日期',
           endPlaceholder: '结束日期',
           defaultTime: ['00:00:00', '23:59:59'],
-          daterange: dateRangeOptions
+          pickerOptions: dateRangeOptions
         }
       } else if (item.type === 'datetimerange') {
         return {
@@ -93,7 +93,7 @@ const attrs = {
           startPlaceholder: '开始时间',
           endPlaceholder: '结束时间',
           defaultTime: ['00:00:00', '23:59:59'],
-          datetimerange: dateRangeOptions
+          pickerOptions: dateRangeOptions
         }
       } else if (item.type === 'monthrange') {
         return {
@@ -102,7 +102,7 @@ const attrs = {
           startPlaceholder: '开始月份',
           endPlaceholder: '结束月份',
           defaultTime: ['00:00:00', '23:59:59'],
-          monthrange: monthRangeOptions
+          pickerOptions: monthRangeOptions
         }
       } else {
         return {}
