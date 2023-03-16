@@ -261,6 +261,12 @@ export default {
     :data="data"
     :items="items"
   >
+    <template v-slot:myInputInsertBeforeSlot="{ item, formRef }">
+      input before slot
+    </template>
+    <template v-slot:myInputInsertAfterSlot="{ item, formRef }">
+      input after slot
+    </template>
     <template v-slot:optionSlot="{ label, value }">
       <i class="el-icon-edit" />{{ label }}: {{ value }}
     </template>
@@ -387,6 +393,12 @@ export default {
         autosize: {
           minRows: 2, maxRows: 6
         }
+      }, {
+        label: '带有前后插槽输入框',
+        prop: 'myInputInsert',
+        type: 'input',
+        beforeSlot: 'myInputInsertBeforeSlot',
+        afterSlot: 'myInputInsertAfterSlot'
       }, {
         label: '单选框',
         prop: 'myRadio',
