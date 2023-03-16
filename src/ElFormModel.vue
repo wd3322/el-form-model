@@ -21,6 +21,14 @@
       >
 
         <div @mousedown="onActiveItemChange(item, index)">
+
+          <!-- before slot -->
+          <slot 
+            :name="item.beforeSlot"
+            :item="item"
+            :index="index"
+            :formRef="formRef"
+          />
   
           <!-- slot type -->
           <template v-if="item.type === 'slot'">
@@ -158,6 +166,14 @@
               </el-form-model-options>
             </template>
           </component>
+
+          <!-- after slot -->
+          <slot 
+            :name="item.afterSlot"
+            :item="item"
+            :index="index"
+            :formRef="formRef"
+          />
 
         </div>
  
