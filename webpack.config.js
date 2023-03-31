@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
  
 module.exports = {
   devtool: 'source-map',
@@ -22,21 +23,22 @@ module.exports = {
       loader: 'babel-loader'
     }, {
       test: /\.scss$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'sass-loader']
-      })
+      use: [
+        { loader: MiniCssExtractPlugin.loader },
+        { loader: 'css-loader' },
+        { loader: 'sass-loader' }
+      ]
     }]
   },
   plugins: [
+    new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'index.css'
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    }),
-    new ExtractTextPlugin({
-      filename: 'index.css',
-      allChunks: true
     })
   ]
 }
