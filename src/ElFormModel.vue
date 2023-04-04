@@ -180,11 +180,11 @@
       </el-form-item>
 
       <div 
-        v-if="$scopedSlots.bodyBetween"
-        class="body-between"
+        v-if="$scopedSlots.between"
+        class="between"
       >
         <slot 
-          name="bodyBetween"
+          name="between"
           :formRef="formRef"
         />
       </div>

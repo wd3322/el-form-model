@@ -44,7 +44,9 @@ Vue.use(ElFormModel, {
     }
   },
   component: {
-    form: {},
+    form: {
+      size: 'medium'
+    },
     formItem(item) {
       if (['input', 'autocomplete', 'select'].includes(item.type)) {
         return {
@@ -260,20 +262,7 @@ export default {
     :inline="false"
     :data="data"
     :items="items"
-  >
-    <template v-slot:myInputInsertBeforeSlot="{ item, formRef }">
-      input before slot
-    </template>
-    <template v-slot:myInputInsertAfterSlot="{ item, formRef }">
-      input after slot
-    </template>
-    <template v-slot:optionSlot="{ label, value }">
-      <i class="el-icon-edit" />{{ label }}: {{ value }}
-    </template>
-    <template v-slot:myCustomContent="{ item, formRef }">
-      自定义内容区域 / {{ item.label }}
-    </template>
-  </el-form-model>
+  />
 </template>
 ```
 
@@ -309,25 +298,29 @@ export default {
       items: [{ 
         label: '输入框',
         prop: 'myInput',
-        type: 'input' // input、number、password、tel、email、url、search
+        type: 'input' // input,number,password,tel,email,url,search
       }, {
         labels: ['输入框1', '输入框2', '输入框3'], // 仅行内表单生效
         props: ['myInput1', 'myInput2', 'myInput3'],
-        type: 'input', // input、number、password、tel、email、url、search、autocomplete、count、select、time、date、dates、datetime、month、year、radio、checkbox、switch、rate、color
+        type: 'input', // input,number,password,tel,email,url,search,autocomplete,count,select,time,date,dates,datetime,month,year,radio,checkbox,switch,rate,color
         labelMultiple: true
       }, { 
         label: '自动补全',
         prop: 'myAutocomplete',
         type: 'autocomplete',
-        fetchSuggestions: this.querySearch
+        fetchSuggestions: (val, callback) => {
+          callback([
+            { value: '选项1' },
+            { value: '选项2' }
+          ])
+        }
       }, {
         label: '下拉框',
         prop: 'mySelect',
         type: 'select',
         options: [
           { label: '选项1', value: 0 },
-          { label: '选项2', value: 1 },
-          { label: 'optionSlot', value: 2, type: 'slot' }
+          { label: '选项2', value: 1 }
         ]
       }, {
         label: '级联选择器',
@@ -394,12 +387,6 @@ export default {
           minRows: 2, maxRows: 6
         }
       }, {
-        label: '带有前后插槽输入框',
-        prop: 'myInputInsert',
-        type: 'input',
-        beforeSlot: 'myInputInsertBeforeSlot',
-        afterSlot: 'myInputInsertAfterSlot'
-      }, {
         label: '单选框',
         prop: 'myRadio',
         type: 'radio',
@@ -435,6 +422,100 @@ export default {
         label: '颜色',
         prop: 'myColor',
         type: 'color'
+      }]
+    }
+  }
+}
+```
+
+### 数据-插槽
+
+表单项可通过 `type` 属性设置 `'slot'` 值指向其 `prop`属性值的具名插槽；
+
+表单项中通过 `beforeSlot,afterSlot` 属性指向其之前与之后的区域，可作用于所有表单类型；
+
+表单项 `Select,Radio,Checkbox` 的 `options` 可通过 `type` 属性设置 `'slot'` 值指向其 `label` 属性值的具名插槽；
+
+```html
+<template>
+  <el-form-model
+    ref="myForm"
+    label-width="100px"
+    :inline="false"
+    :data="data"
+    :items="items"
+  >
+    <template v-slot:myInputBeforeSlot="{ item, formRef }">
+      input before slot
+    </template>
+    <template v-slot:myInputAfterSlot="{ item, formRef }">
+      input after slot
+    </template>
+    <template v-slot:optionSlot="{ label, value }">
+      <i class="el-icon-edit" />{{ label }}: {{ value }}
+    </template>
+    <template v-slot:myCustomContent="{ item, formRef }">
+      自定义内容区域 / {{ item.label }}
+    </template>
+  </el-form-model>
+</template>
+```
+
+```javascript
+export default {
+  data() {
+    return {
+      data: {
+        myInput: 'apple',
+        mySelect: 0,
+        myRadio: 1,
+        myCheckbox: [0, 1]
+      },
+      items: [{
+        label: '带有前后插槽的输入框',
+        prop: 'myInput',
+        type: 'input',
+        beforeSlot: 'myInputBeforeSlot',
+        afterSlot: 'myInputAfterSlot',
+        rules: [
+          { required: true, message: '请输入...', trigger: 'change' }
+        ]
+      }, {
+        label: '带有选项插槽的下拉框',
+        prop: 'mySelect',
+        type: 'select',
+        options: [
+          { label: '选项1', value: 0 },
+          { label: '选项2', value: 1 },
+          { label: 'selectOptionSlot', value: 2, type: 'slot' }
+        ],
+        rules: [
+          { required: true, message: '请选择...', trigger: 'change' }
+        ]
+      }, {
+        label: '带有选项插槽的单选框',
+        prop: 'myRadio',
+        type: 'radio',
+        options: [
+          { label: '选项1', value: 0 },
+          { label: '选项2', value: 1 },
+          { label: 'selectOptionSlot', value: 2, type: 'slot' }
+        ],
+        rules: [
+          { required: true, message: '请选择...', trigger: 'change' }
+        ]
+      }, {
+        label: '带有选项插槽的复选框',
+        prop: 'myCheckbox',
+        type: 'checkbox',
+        options: [
+          { label: '选项1', value: 0 },
+          { label: '选项2', value: 1 },
+          { label: 'selectOptionSlot', value: 2, type: 'slot' }
+        ],
+        rules: [
+          { required: true, message: '请选择...', trigger: 'change' }
+        ]
       }, {
         label: '自定义内容',
         prop: 'myCustomContent',
@@ -488,7 +569,7 @@ export default {
 ```
 
 ### 数据-继承表单子项属性
-可继承 `Form-item` 表单子项属性与 `Input、Select、Cascader...` 表单子项组件属性（Element Form-item Attributes、[Input、Select、Cascader...] Attributes）
+可继承 `Form-item` 表单子项属性与 `Input,Select,Cascader...` 表单子项组件属性（Element Form-item Attributes, [Input,Select,Cascader...] Attributes）
 
 ```javascript
 export default {
@@ -522,7 +603,7 @@ export default {
 ```
 
 ### 数据-继承表单子项事件
-在 `events` 对象中可继承 `Input、Select、Cascader...` 表单子项组件事件（[Input、Select、Cascader...] Events）
+在 `events` 对象中可继承 `Input,Select,Cascader...` 表单子项组件事件（[Input,Select,Cascader...] Events）
 
 ```javascript
 export default {
@@ -676,12 +757,12 @@ export default {
 ```html
 <template>
   <el-form-model
-    label-width="100px"
+    label-width="180px"
     :inline="false"
     :data="data"
     :items="items"
   >
-    <template v-slot:bodyBetween="{ formRef }">
+    <template v-slot:between="{ formRef }">
       表单与按钮之间区域
     </template>
     <template v-slot:button="{ formRef }">
