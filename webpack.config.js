@@ -40,5 +40,6 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     })
-  ]
+  ],
+  target: ['web', 'es5']
 }
