@@ -5,34 +5,28 @@ import './index.scss'
 const Loading = {
   install: function(Vue, attrs = {}) {
     const errorHeader = '[el-form-model error] install config'
-    if (Object.prototype.toString.call(attrs) !== '[object Object]') {
+    if (!attrs || typeof attrs !== 'object') {
       throw { message: `${errorHeader} is not a object` }
     }
-    if (Object.prototype.toString.call(attrs.global) !== '[object Object]') {
+    if (!attrs.global || typeof attrs.global !== 'object') {
       throw { message: `${errorHeader} 'global' is not a object` }
     }
-    if (Object.prototype.toString.call(attrs.global.placeholder) !== '[object Object]') {
+    if (!attrs.global.placeholder || typeof attrs.global.placeholder !== 'object') {
       throw { message: `${errorHeader} 'global.placeholder' is not a object` }
     }
-    if (Object.prototype.toString.call(attrs.global.placeholder.input) !== '[object String]') {
+    if (!attrs.global.placeholder.input || typeof attrs.global.placeholder.input !== 'string') {
       throw { message: `${errorHeader} 'global.placeholder.input' is not a string` }
     }
-    if (Object.prototype.toString.call(attrs.global.placeholder.select) !== '[object String]') {
+    if (!attrs.global.placeholder.select || typeof attrs.global.placeholder.select !== 'string') {
       throw { message: `${errorHeader} 'global.placeholder.select' is not a string` }
     }
-    if (Object.prototype.toString.call(attrs.component) !== '[object Object]') {
+    if (!attrs.component || typeof attrs.component !== 'string') {
       throw { message: `${errorHeader} 'component' is not a object` }
     }
-    if (
-      Object.prototype.toString.call(attrs.component.form) !== '[object Object]' &&
-      Object.prototype.toString.call(attrs.component.form) !== '[object Function]'
-    ) {
+    if (!attrs.component.form || (typeof attrs.component.form !== 'object' && typeof attrs.component.form !== 'function')) {
       throw { message: `${errorHeader} 'component.form' is not a object or function` }
     }
-    if (
-      Object.prototype.toString.call(attrs.component.formItem) !== '[object Object]' &&
-      Object.prototype.toString.call(attrs.component.formItem) !== '[object Function]'
-    ) {
+    if (!attrs.component.formItem || (typeof attrs.component.formItem !== 'object' && typeof attrs.component.formItem !== 'function')) {
       throw { message: `${errorHeader} 'component.formItem' is not a object or function` }
     }
     const mixin = defaultAttrs.get(attrs)
