@@ -278,7 +278,11 @@ export default {
       let result = {}
       if (type === 'form') {
         result = {
-          ...this.defaultAttrs.component.form,
+          ...(
+            typeof this.defaultAttrs.component.form === 'function'
+            ? this.defaultAttrs.component.form(this)
+            : this.defaultAttrs.component.form
+          ),
           ...this.$attrs
         }
       } else if (type === 'form-item') {
@@ -302,8 +306,8 @@ export default {
         result = {
           ...(
             typeof this.defaultAttrs.component.formItem === 'function'
-            ? this.defaultAttrs.component.formItem(item)
-            : {}
+            ? this.defaultAttrs.component.formItem(this, item)
+            : this.defaultAttrs.component.formItem
           ),
           ...item
         }
@@ -332,8 +336,8 @@ export default {
           ...result,
           ...(
             typeof this.defaultAttrs.component.formItem === 'function'
-            ? this.defaultAttrs.component.formItem(item)
-            : {}
+            ? this.defaultAttrs.component.formItem(this, item)
+            : this.defaultAttrs.component.formItem
           ),
           ...item
         }

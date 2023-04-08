@@ -71,8 +71,10 @@ const attrs = {
     }
   },
   component: {
-    form: {},
-    formItem(item) {
+    form(ctx) {
+      return {}
+    },
+    formItem(ctx, item) {
       if (['input', 'autocomplete', 'select'].includes(item.type)) {
         return {
           clearable: true

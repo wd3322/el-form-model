@@ -44,10 +44,12 @@ Vue.use(ElFormModel, {
     }
   },
   component: {
-    form: {
-      size: 'medium'
+    form(ctx){
+      return {
+        size: 'medium'
+      }
     },
-    formItem(item) {
+    formItem(ctx, item) {
       if (['input', 'autocomplete', 'select'].includes(item.type)) {
         return {
           clearable: true
