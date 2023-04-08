@@ -20,7 +20,7 @@ const Loading = {
     if (!attrs.global.placeholder.select || typeof attrs.global.placeholder.select !== 'string') {
       throw { message: `${errorHeader} 'global.placeholder.select' is not a string` }
     }
-    if (!attrs.component || typeof attrs.component !== 'string') {
+    if (!attrs.component || typeof attrs.component !== 'object') {
       throw { message: `${errorHeader} 'component' is not a object` }
     }
     if (!attrs.component.form || (typeof attrs.component.form !== 'object' && typeof attrs.component.form !== 'function')) {
