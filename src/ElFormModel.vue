@@ -29,16 +29,24 @@
             :index="index"
             :formRef="formRef"
           />
+
+          <!-- render type -->
+          <el-form-model-item
+            v-if="item.type === 'render'"
+            :render-content="item.renderContent"
+            :item="item"
+            :index="index"
+            :value="data[item.prop]"
+          />
   
           <!-- slot type -->
-          <template v-if="item.type === 'slot'">
-            <slot 
-              :name="item.prop"
-              :item="item"
-              :index="index"
-              :formRef="formRef"
-            />
-          </template>
+          <slot 
+            v-else-if="item.type === 'slot'"
+            :name="item.prop"
+            :item="item"
+            :index="index"
+            :formRef="formRef"
+          />
   
           <!-- label multiple -->
           <div
@@ -216,11 +224,13 @@
 
 <script>
 import $utils from './utils.js'
+import ElFormModelItem from './components/ElFormModelItem.vue'
 import ElFormModelOptions from './components/ElFormModelOptions.vue'
 
 export default {
   name: 'ElFormModel',
   components: {
+    ElFormModelItem,
     ElFormModelOptions
   },
   props: {
