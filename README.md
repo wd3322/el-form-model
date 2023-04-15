@@ -430,6 +430,39 @@ export default {
 }
 ```
 
+### 数据-渲染
+可通过 `type` 属性设置为 `'render'` 值，并使用 `renderContent` 属性创建渲染函数
+
+```javascript
+export default {
+  data() {
+    return {
+      data: {
+        myCustomContent: 'apple'
+      },
+      items: [{
+        label: '自定义内容',
+        prop: 'myCustomContent',
+        type: 'render',
+        renderContent(h, { item, index, value }) {
+          return h('span', {
+            style: {
+              color: '#333333',
+              cursor: 'pointer'
+            },
+            on: {
+              click: () => {
+                console.log('renderContent', item, index, value)
+              }
+            }
+          }, value)
+        }
+      }]
+    }
+  }
+}
+```
+
 ### 数据-插槽
 
 表单项可通过 `type` 属性设置 `'slot'` 值指向其 `prop`属性值的具名插槽；
