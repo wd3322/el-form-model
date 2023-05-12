@@ -24,10 +24,10 @@ const Loading = {
     if (Utils.getPrototype(attrs.component) !== 'object') {
       throw new Error(`${errorHeader} 'component' is not a object`)
     }
-    if (!['object', 'function'].includes(Utils.getPrototype(attrs.component.form))) {
+    if (!['object', 'function', 'asyncfunction'].includes(Utils.getPrototype(attrs.component.form))) {
       throw new Error(`${errorHeader} 'component.form' is not a object or function`)
     }
-    if (!['object', 'function'].includes(Utils.getPrototype(attrs.component.formItem))) {
+    if (!['object', 'function', 'asyncfunction'].includes(Utils.getPrototype(attrs.component.formItem))) {
       throw new Error(`${errorHeader} 'component.formItem' is not a object or function`)
     }
     const mixin = DefaultAttrs.get(attrs)

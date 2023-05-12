@@ -289,7 +289,7 @@ export default {
       if (type === 'form') {
         result = {
           ...(
-            Utils.getPrototype(this.defaultAttrs.component.form) === 'function'
+            ['function', 'asyncfunction'].includes(Utils.getPrototype(this.defaultAttrs.component.form))
               ? this.defaultAttrs.component.form(this)
               : this.defaultAttrs.component.form
           ),
@@ -315,7 +315,7 @@ export default {
       } else if (type === 'multiple-result-component-item') {
         result = {
           ...(
-            Utils.getPrototype(this.defaultAttrs.component.formItem) === 'function'
+            ['function', 'asyncfunction'].includes(Utils.getPrototype(this.defaultAttrs.component.formItem))
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
@@ -348,7 +348,7 @@ export default {
         result = {
           ...result,
           ...(
-            Utils.getPrototype(this.defaultAttrs.component.formItem) === 'function'
+            ['function', 'asyncfunction'].includes(Utils.getPrototype(this.defaultAttrs.component.formItem))
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
@@ -501,7 +501,7 @@ export default {
       }
     },
     onClickButton(item, formRef) {
-      if (Utils.getPrototype(item.clickMethod) === 'function') {
+      if (['function', 'asyncfunction'].includes(Utils.getPrototype(item.clickMethod))) {
         item.clickMethod(item, formRef)
       }
     },
