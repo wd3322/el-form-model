@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component 
+    <component
       :is="{
         select: 'el-option',
         radio: 'el-radio',

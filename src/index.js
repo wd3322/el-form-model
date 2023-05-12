@@ -1,35 +1,36 @@
+import Utils from './utils.js'
 import ElFormModel from './ElFormModel.vue'
-import defaultAttrs from './attrs'
+import DefaultAttrs from './attrs'
 import './index.scss'
 
 const Loading = {
-  install: function(Vue, attrs = {}) {
+  install(Vue, attrs = {}) {
     const errorHeader = 'el-form-model install config'
-    if (!attrs || typeof attrs !== 'object') {
+    if (Utils.getPrototype(attrs) !== 'object') {
       throw new Error(`${errorHeader} is not a object`)
     }
-    if (!attrs.global || typeof attrs.global !== 'object') {
+    if (Utils.getPrototype(attrs.global) !== 'object') {
       throw new Error(`${errorHeader} 'global' is not a object`)
     }
-    if (!attrs.global.placeholder || typeof attrs.global.placeholder !== 'object') {
+    if (Utils.getPrototype(attrs.global.placeholder) !== 'object') {
       throw new Error(`${errorHeader} 'global.placeholder' is not a object`)
     }
-    if (!attrs.global.placeholder.input || typeof attrs.global.placeholder.input !== 'string') {
+    if (Utils.getPrototype(attrs.global.placeholder.input) !== 'string') {
       throw new Error(`${errorHeader} 'global.placeholder.input' is not a string`)
     }
-    if (!attrs.global.placeholder.select || typeof attrs.global.placeholder.select !== 'string') {
+    if (Utils.getPrototype(attrs.global.placeholder.select) !== 'string') {
       throw new Error(`${errorHeader} 'global.placeholder.select' is not a string`)
     }
-    if (!attrs.component || typeof attrs.component !== 'object') {
+    if (Utils.getPrototype(attrs.component) !== 'object') {
       throw new Error(`${errorHeader} 'component' is not a object`)
     }
-    if (!attrs.component.form || (typeof attrs.component.form !== 'object' && typeof attrs.component.form !== 'function')) {
+    if (!['object', 'function'].includes(Utils.getPrototype(attrs.component.form))) {
       throw new Error(`${errorHeader} 'component.form' is not a object or function`)
     }
-    if (!attrs.component.formItem || (typeof attrs.component.formItem !== 'object' && typeof attrs.component.formItem !== 'function')) {
+    if (!['object', 'function'].includes(Utils.getPrototype(attrs.component.formItem))) {
       throw new Error(`${errorHeader} 'component.formItem' is not a object or function`)
     }
-    const mixin = defaultAttrs.get(attrs)
+    const mixin = DefaultAttrs.get(attrs)
     Vue.mixin(mixin)
     Vue.component('el-form-model', ElFormModel)
   }

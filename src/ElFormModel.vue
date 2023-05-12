@@ -23,7 +23,7 @@
         <div @mousedown="onActiveItemChange(item, index)">
 
           <!-- before slot -->
-          <slot 
+          <slot
             :name="item.beforeSlot"
             :item="item"
             :index="index"
@@ -38,22 +38,22 @@
             :index="index"
             :value="data[item.prop]"
           />
-  
+
           <!-- slot type -->
-          <slot 
+          <slot
             v-else-if="item.type === 'slot'"
             :name="item.prop"
             :item="item"
             :index="index"
             :formRef="formRef"
           />
-  
+
           <!-- label multiple -->
           <div
             v-else-if="item.labelMultiple"
             class="input-with-dropdown"
           >
-            <el-dropdown 
+            <el-dropdown
               placement="bottom-start"
               @command="onDropdownLabel($event, item.id, item)"
             >
@@ -103,7 +103,7 @@
                 <el-form-model-options :item="item">
                   <template v-slot="{ option }">
                     <span v-if="option.type === 'slot'">
-                      <slot 
+                      <slot
                         :name="option.label"
                         :label="option.label"
                         :value="option.value"
@@ -115,7 +115,7 @@
               </template>
             </component>
           </div>
-  
+
           <!-- multiple-result-component-item -->
           <component
             v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
@@ -125,7 +125,7 @@
             v-on="item.events"
             @change="onChangeProps($event, item)"
           />
-  
+
           <!-- single-result-component-item -->
           <component
             v-else
@@ -163,7 +163,7 @@
               <el-form-model-options :item="item">
                 <template v-slot="{ option }">
                   <span v-if="option.type === 'slot'">
-                    <slot 
+                    <slot
                       :name="option.label"
                       :label="option.label"
                       :value="option.value"
@@ -176,7 +176,7 @@
           </component>
 
           <!-- after slot -->
-          <slot 
+          <slot
             :name="item.afterSlot"
             :item="item"
             :index="index"
@@ -184,24 +184,24 @@
           />
 
         </div>
- 
+
       </el-form-item>
 
-      <div 
+      <div
         v-if="$scopedSlots.between"
         class="between"
       >
-        <slot 
+        <slot
           name="between"
           :formRef="formRef"
         />
       </div>
 
-      <el-form-item 
+      <el-form-item
         class="button"
         v-if="buttons.length > 0 || $scopedSlots.button"
       >
-        <slot 
+        <slot
           name="button"
           :formRef="formRef"
         >
@@ -210,20 +210,20 @@
               v-for="(item, index) in buttons"
               :key="item.text + index"
               v-bind="getAttrs('button-item', item)"
-              @click="typeof item.clickMethod === 'function' ? item.clickMethod(item, formRef) : null"
+              @click="onClickButton(item, formRef)"
             >
               {{ item.text }}
             </el-button>
           </div>
         </slot>
       </el-form-item>
-      
+
     </el-form>
   </div>
 </template>
 
 <script>
-import $utils from './utils.js'
+import Utils from './utils.js'
 import ElFormModelItem from './components/ElFormModelItem.vue'
 import ElFormModelOptions from './components/ElFormModelOptions.vue'
 
@@ -289,9 +289,9 @@ export default {
       if (type === 'form') {
         result = {
           ...(
-            typeof this.defaultAttrs.component.form === 'function'
-            ? this.defaultAttrs.component.form(this)
-            : this.defaultAttrs.component.form
+            Utils.getPrototype(this.defaultAttrs.component.form) === 'function'
+              ? this.defaultAttrs.component.form(this)
+              : this.defaultAttrs.component.form
           ),
           ...this.$attrs
         }
@@ -315,9 +315,9 @@ export default {
       } else if (type === 'multiple-result-component-item') {
         result = {
           ...(
-            typeof this.defaultAttrs.component.formItem === 'function'
-            ? this.defaultAttrs.component.formItem(this, item)
-            : this.defaultAttrs.component.formItem
+            Utils.getPrototype(this.defaultAttrs.component.formItem) === 'function'
+              ? this.defaultAttrs.component.formItem(this, item)
+              : this.defaultAttrs.component.formItem
           ),
           ...item
         }
@@ -328,8 +328,11 @@ export default {
         const excludeProps = []
         if (['input', 'number', 'password', 'tel', 'email', 'url', 'search', 'textarea', 'autocomplete', 'select', 'cascader', 'time', 'date', 'dates', 'datetime', 'month', 'year'].includes(item.type)) {
           const tip =
-            (['input', 'number', 'password', 'tel', 'email', 'url', 'search', 'textarea', 'autocomplete'].includes(item.type) || (['select'].includes(item.type) && item.remote)) ? input :
-              (['cascader', 'time', 'date', 'dates', 'datetime', 'month', 'year'].includes(item.type) || (['select'].includes(item.type) && !item.remote)) ? select : ''
+            (['input', 'number', 'password', 'tel', 'email', 'url', 'search', 'textarea', 'autocomplete'].includes(item.type) || (['select'].includes(item.type) && item.remote))
+              ? input
+              : (['cascader', 'time', 'date', 'dates', 'datetime', 'month', 'year'].includes(item.type) || (['select'].includes(item.type) && !item.remote))
+                  ? select
+                  : ''
           const placeholder = item.labelMultiple ? tip + (item.labels[this.note[item.id] || 0] || '') : tip + (item.label || '')
           result.placeholder = placeholder
         }
@@ -345,9 +348,9 @@ export default {
         result = {
           ...result,
           ...(
-            typeof this.defaultAttrs.component.formItem === 'function'
-            ? this.defaultAttrs.component.formItem(this, item)
-            : this.defaultAttrs.component.formItem
+            Utils.getPrototype(this.defaultAttrs.component.formItem) === 'function'
+              ? this.defaultAttrs.component.formItem(this, item)
+              : this.defaultAttrs.component.formItem
           ),
           ...item
         }
@@ -365,19 +368,19 @@ export default {
     },
     setParams() {
       this.groups = this.items.filter(item => item.type === 'group')
-      for (const item of this.items) { 
+      for (const item of this.items) {
         // set item info
         if (!item.id) {
           item.id = (item.type || 'item') + '-' + URL.createObjectURL(new Blob()).substr(-36)
         }
         if (['daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple) {
-          if (!Array.isArray(item.labels)) {
+          if (Utils.getPrototype(item.labels) !== 'array') {
             item.labels = []
           }
-          if (!Array.isArray(item.props)) {
+          if (Utils.getPrototype(item.props) !== 'array') {
             item.props = []
           }
-          if (Array.isArray(item.rules)) {
+          if (Utils.getPrototype(item.rules) === 'array') {
             const requiredRule = item.rules.find(rule => rule.required)
             if (!requiredRule.validator) {
               requiredRule.validator = (rule, value, callback) => {
@@ -399,10 +402,12 @@ export default {
         }
         // set array data
         if (
-          (['cascader', 'dates', 'checkbox'].includes(item.type) ||
+          (
+            (['cascader', 'dates', 'checkbox'].includes(item.type) ||
             (['select'].includes(item.type) && item.multiple) ||
-              (['slider'].includes(item.type) && item.range)) &&
-                !Array.isArray(this.getFrom(item)[item.prop])
+            (['slider'].includes(item.type) && item.range))
+          ) &&
+          Utils.getPrototype(this.getFrom(item)[item.prop]) !== 'array'
         ) {
           this.$set(this.getFrom(item), item.prop, [])
         }
@@ -424,11 +429,11 @@ export default {
       for (const group of this.groups) {
         // set group data
         const prop = group.prop
-        const dataLength = Array.isArray(this.data[prop]) ? this.data[prop].length : 0
-        if (!group.rowNumber) {
+        const dataLength = Utils.getPrototype(this.data[prop]) === 'array' ? this.data[prop].length : 0
+        if (Utils.getPrototype(group.rowNumber) !== 'number') {
           group.rowNumber = 0
         }
-        if (!Array.isArray(this.data[prop])) {
+        if (Utils.getPrototype(this.data[prop]) !== 'array') {
           this.$set(this.data, prop, [])
         }
         if (dataLength > group.rowNumber) {
@@ -450,14 +455,14 @@ export default {
     },
     onAddGroup(prop, index) {
       const group = this.groups.find(group => group.prop === prop)
-      if (group && Array.isArray(group.children)) {
-        const rowIndex = typeof index === 'number' ? index : group.rowNumber
+      if (group && Utils.getPrototype(group.children) === 'array') {
+        const rowIndex = Utils.getPrototype(index) === 'number' ? index : group.rowNumber
         const items = group.children.map(item => item = { ...item, group: prop, rowIndex })
-        const newItems = $utils.deepClone(items)
+        const newItems = Utils.deepClone(items)
         const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
         const insertIndex = firstIndex + 1 + rowIndex * group.children.length
         this.items.splice(insertIndex, 0, ...newItems)
-        if (typeof index !== 'number') {
+        if (Utils.getPrototype(index) !== 'number') {
           this.data[prop].push({})
         }
         group.rowNumber++
@@ -465,7 +470,7 @@ export default {
     },
     onDelGroup(prop, index) {
       const group = this.groups.find(group => group.prop === prop)
-      if (group && Array.isArray(group.children) && typeof index === 'number') {
+      if (group && Utils.getPrototype(group.children) === 'array' && Utils.getPrototype(index) === 'number') {
         const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
         const insertIndex = firstIndex + 1 + (group.rowNumber - 1) * group.children.length
         this.items.splice(insertIndex, group.children.length)
@@ -493,6 +498,11 @@ export default {
         } else {
           this.$delete(this.getFrom(item), item.props[i])
         }
+      }
+    },
+    onClickButton(item, formRef) {
+      if (Utils.getPrototype(item.clickMethod) === 'function') {
+        item.clickMethod(item, formRef)
       }
     },
     onFormMethod(method, params = []) {

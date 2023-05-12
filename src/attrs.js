@@ -115,8 +115,8 @@ const attrs = {
 
 const get = ({ global, component }) => {
   return {
-    data () {
-      return { 
+    data() {
+      return {
         defaultAttrs: {
           global: {
             ...attrs.global,

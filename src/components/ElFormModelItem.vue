@@ -22,7 +22,7 @@ export default {
       default: () => {}
     }
   },
-  render: function(createElement) {
+  render(createElement) {
     return this.renderContent(createElement, {
       item: this.item,
       index: this.index,

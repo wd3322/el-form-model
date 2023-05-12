@@ -1,6 +1,6 @@
-# vue element form to json
+# Vue Element Form To Json
 
-**Git地址**
+### Git地址
 
 [Github](https://github.com/wd3322/el-form-model)
 
@@ -8,17 +8,21 @@
 
 ![el-form-model](https://wd3322.github.io/to-vue3/img/el-form-model/form-demo.png)
 
-## 行内
+### 行内
 ![inline](https://wd3322.github.io/to-vue3/img/el-form-model/form-inline.gif)
-## 布局
+### 布局
 ![layout](https://wd3322.github.io/to-vue3/img/el-form-model/form-layout.png)
-## 分组
+### 分组
 ![group](https://wd3322.github.io/to-vue3/img/el-form-model/form-group.gif)
+
+---
 
 ## 下载
 ```
 npm install el-form-model
 ```
+
+---
 
 ## 引用
 在 main.js 中写入以下内容，请使用 `element-ui v2.15.X` 以上版本
@@ -33,6 +37,8 @@ import 'el-form-model/lib/index.css'
 Vue.use(ElementUI)
 Vue.use(ElFormModel)
 ```
+
+---
 
 ### 引用-默认参数（可选）
 ```javascript
@@ -86,6 +92,8 @@ Vue.use(ElFormModel, {
 })
 ```
 
+---
+
 # 组件
 
 ### 组件-基础
@@ -132,6 +140,8 @@ export default {
 | data     | Object   | True     |
 | items    | Array    | True     |
 
+---
+
 ### 组件-行内
 可通过 `inline` 属性设置行内表单模式
 
@@ -145,6 +155,8 @@ export default {
   />
 </template>
 ```
+
+---
 
 ### 组件-列宽
 可通过 `label-width` 属性设置表单域标签的宽度
@@ -161,6 +173,7 @@ export default {
 </template>
 ```
 
+---
 
 ### 组件-继承表单属性
 可继承 `Form` 表单组件属性（Element Form Attributes）
@@ -180,6 +193,8 @@ export default {
 </template>
 ```
 
+---
+
 ### 组件-继承表单事件
 可继承 `Form` 表单组件事件（Element Form Events）
 
@@ -195,6 +210,8 @@ export default {
   />
 </template>
 ```
+
+---
 
 ### 组件-执行表单方法
 可执行 `Form` 表单组件方法（Element Form Methods）
@@ -223,6 +240,8 @@ export default {
 }
 ```
 
+---
+
 ### 组件-事件
 可通过 `active-item-change` 事件获取当前激活的表单子项
 
@@ -250,6 +269,8 @@ export default {
 | Prop                | Prop Type   | Type        | Required |
 | :-------            | :-------    | :-------    | :------  |
 | active-item-change  | Event       | Function    | False    |
+
+---
 
 # 数据
 
@@ -430,6 +451,8 @@ export default {
 }
 ```
 
+---
+
 ### 数据-渲染
 可通过 `type` 属性设置为 `'render'` 值，并使用 `renderContent` 属性创建渲染函数
 
@@ -462,6 +485,8 @@ export default {
   }
 }
 ```
+
+---
 
 ### 数据-插槽
 
@@ -561,6 +586,8 @@ export default {
 }
 ```
 
+---
+
 ### 数据-列宽
 可通过 `width` 属性设置表单域的宽度（非行内表单时生效）
 
@@ -585,6 +612,8 @@ export default {
 }
 ```
 
+---
+
 ### 数据-隐藏
 可通过 `hidden` 属性设置表单域是否隐藏
 
@@ -602,6 +631,8 @@ export default {
   }
 }
 ```
+
+---
 
 ### 数据-继承表单子项属性
 可继承 `Form-item` 表单子项属性与 `Input,Select,Cascader...` 表单子项组件属性（Element Form-item Attributes, [Input,Select,Cascader...] Attributes）
@@ -637,6 +668,8 @@ export default {
 }
 ```
 
+---
+
 ### 数据-继承表单子项事件
 在 `events` 对象中可继承 `Input,Select,Cascader...` 表单子项组件事件（[Input,Select,Cascader...] Events）
 
@@ -664,6 +697,8 @@ export default {
   }
 }
 ```
+
+---
 
 ### 数据-分组
 可通过 `type` 属性设置 `'group'` 值开启表单分组功能，在 `children` 属性中添加表单子项组件
@@ -735,6 +770,8 @@ export default {
 }
 ```
 
+---
+
 # 按钮
 
 ### 按钮-对象
@@ -785,6 +822,8 @@ export default {
   }
 }
 ```
+
+---
 
 ### 按钮-插槽
 可通过 `buttons` 具名插槽设置表单按钮（权重：高）

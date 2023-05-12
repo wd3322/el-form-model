@@ -1,4 +1,8 @@
-const deepClone = (source) => {
+const getPrototype = function(value) {
+  return Object.prototype.toString.call(value).replace(/^\[object (\S+)\]$/, '$1').toLowerCase()
+}
+
+const deepClone = function(source) {
   if (!source && typeof source !== 'object') {
     throw new Error('error arguments', 'deepClone')
   }
@@ -14,5 +18,6 @@ const deepClone = (source) => {
 }
 
 export default {
+  getPrototype,
   deepClone
 }
