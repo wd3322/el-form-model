@@ -893,3 +893,11 @@ export default {
   }
 }
 ```
+
+----
+
+Package: el-form-model
+
+E-mail: diquick@qq.com
+
+Author: wd3322
