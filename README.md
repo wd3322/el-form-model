@@ -6,14 +6,14 @@
 
 [Gitee](https://gitee.com/wd3322/el-form-model)
 
-![el-form-model](https://wd3322.github.io/to-vue3/img/el-form-model/form-demo.png)
+![el-form-model](https://wd3322.gitee.io/to-vue3/img/el-form-model/form-demo.png)
 
 ### 行内
-![inline](https://wd3322.github.io/to-vue3/img/el-form-model/form-inline.gif)
+![inline](https://wd3322.gitee.io/to-vue3/img/el-form-model/form-inline.gif)
 ### 布局
-![layout](https://wd3322.github.io/to-vue3/img/el-form-model/form-layout.png)
+![layout](https://wd3322.gitee.io/to-vue3/img/el-form-model/form-layout.png)
 ### 分组
-![group](https://wd3322.github.io/to-vue3/img/el-form-model/form-group.gif)
+![group](https://wd3322.gitee.io/to-vue3/img/el-form-model/form-group.gif)
 
 ---
 
