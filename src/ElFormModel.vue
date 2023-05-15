@@ -289,7 +289,7 @@ export default {
       if (type === 'form') {
         result = {
           ...(
-            ['function', 'asyncfunction'].includes(Utils.getPrototype(this.defaultAttrs.component.form))
+            Utils.getPrototype(this.defaultAttrs.component.form).indexOf('function') !== -1
               ? this.defaultAttrs.component.form(this)
               : this.defaultAttrs.component.form
           ),
@@ -315,7 +315,7 @@ export default {
       } else if (type === 'multiple-result-component-item') {
         result = {
           ...(
-            ['function', 'asyncfunction'].includes(Utils.getPrototype(this.defaultAttrs.component.formItem))
+            Utils.getPrototype(this.defaultAttrs.component.formItem).indexOf('function') !== -1
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
@@ -348,7 +348,7 @@ export default {
         result = {
           ...result,
           ...(
-            ['function', 'asyncfunction'].includes(Utils.getPrototype(this.defaultAttrs.component.formItem))
+            Utils.getPrototype(this.defaultAttrs.component.formItem).indexOf('function') !== -1
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
@@ -501,7 +501,7 @@ export default {
       }
     },
     onClickButton(item, formRef) {
-      if (['function', 'asyncfunction'].includes(Utils.getPrototype(item.clickMethod))) {
+      if (Utils.getPrototype(item.clickMethod).indexOf('function') !== -1) {
         item.clickMethod(item, formRef)
       }
     },
