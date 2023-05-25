@@ -242,36 +242,6 @@ export default {
 
 ---
 
-### 组件-事件
-可通过 `active-item-change` 事件获取当前激活的表单子项
-
-```html
-<template>
-  <el-form-model
-    ref="myForm"
-    :data="data"
-    :items="items"
-    @active-item-change="onActiveItemChange"
-  />
-</template>
-```
-
-```javascript
-export default {
-  methods: {
-    onActiveItemChange(item, index) {
-      console.log('onActiveItemChange', item, index)
-    }
-  }
-}
-```
-
-| Prop                | Prop Type   | Type        | Required |
-| :-------            | :-------    | :-------    | :------  |
-| active-item-change  | Event       | Function    | False    |
-
----
-
 # 数据
 
 ### 数据-默认值、类型
@@ -701,7 +671,7 @@ export default {
 ---
 
 ### 数据-分组
-可通过 `type` 属性设置 `'group'` 值开启表单分组功能，在 `children` 属性中添加表单子项组件
+可通过 `type` 属性设置 `'group'` 值开启表单分组功能，在 `children` 属性中返回表单子项组件
 
 ```html
 <template>
@@ -716,7 +686,7 @@ export default {
       <el-button 
         type="primary"
         icon="el-icon-plus"
-        @click="$refs.myForm.onAddGroup('myGroup')"
+        @click="onAddGroup"
       />
     </template>
     <template v-slot:delButton="{ item }">
@@ -724,7 +694,7 @@ export default {
         type="danger"
         icon="el-icon-minus"
         :disabled="items.find(item => item.prop === 'myGroup').rowNumber <= 1"
-        @click="$refs.myForm.onDelGroup('myGroup', item.rowIndex)"
+        @click="onDelGroup(item.rowIndex)"
       />
     </template>
   </el-form-model>
@@ -748,23 +718,33 @@ export default {
       }, {
         prop: 'myGroup',
         type: 'group',
-        children: [{
-          label: '标题',
-          prop: 'title',
-          type: 'input',
-          width: 'calc(50% - 50px)'
-        }, {
-          label: '地址',
-          prop: 'url',
-          type: 'input',
-          width: 'calc(50% - 50px)'
-        }, {
-          prop: 'delButton',
-          type: 'slot',
-          width: '100px',
-          labelWidth: '20px'
-        }]
+        children: (groupProp, rowIndex) => {
+          return [{
+            label: '标题',
+            prop: 'title',
+            type: 'input',
+            width: 'calc(50% - 50px)'
+          }, {
+            label: '地址',
+            prop: 'url',
+            type: 'input',
+            width: 'calc(50% - 50px)'
+          }, {
+            prop: 'delButton',
+            type: 'slot',
+            width: '100px',
+            labelWidth: '20px'
+          }]
+        }
       }]
+    }
+  },
+  methods: {
+    onAddRow() {
+      this.data.myGroup.push({ title: '360', url: 'www.360.com' })
+    },
+    onDelRow(index) {
+      this.data.myGroup.splice(index, 1)
     }
   }
 }

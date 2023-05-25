@@ -19,116 +19,57 @@
         :style="{ width: !$attrs.inline ? item.width : null }"
         v-bind="getAttrs('form-item', item)"
       >
+    
+        <!-- before slot -->
+        <slot
+          :name="item.beforeSlot"
+          :item="item"
+          :index="index"
+          :formRef="formRef"
+        />
 
-        <div @mousedown="onActiveItemChange(item, index)">
+        <!-- render type -->
+        <el-form-model-item
+          v-if="item.type === 'render'"
+          :render-content="item.renderContent"
+          :item="item"
+          :index="index"
+          :value="data[item.prop]"
+        />
 
-          <!-- before slot -->
-          <slot
-            :name="item.beforeSlot"
-            :item="item"
-            :index="index"
-            :formRef="formRef"
-          />
+        <!-- slot type -->
+        <slot
+          v-else-if="item.type === 'slot'"
+          :name="item.prop"
+          :item="item"
+          :index="index"
+          :formRef="formRef"
+        />
 
-          <!-- render type -->
-          <el-form-model-item
-            v-if="item.type === 'render'"
-            :render-content="item.renderContent"
-            :item="item"
-            :index="index"
-            :value="data[item.prop]"
-          />
-
-          <!-- slot type -->
-          <slot
-            v-else-if="item.type === 'slot'"
-            :name="item.prop"
-            :item="item"
-            :index="index"
-            :formRef="formRef"
-          />
-
-          <!-- label multiple -->
-          <div
-            v-else-if="item.labelMultiple"
-            class="input-with-dropdown"
+        <!-- label multiple -->
+        <div
+          v-else-if="item.labelMultiple"
+          class="input-with-dropdown"
+        >
+          <el-dropdown
+            placement="bottom-start"
+            @command="onDropdownLabel($event, item.id, item)"
           >
-            <el-dropdown
-              placement="bottom-start"
-              @command="onDropdownLabel($event, item.id, item)"
-            >
-              <span class="el-dropdown-link">
-                {{ item.labels[note[item.id] || 0] }}
-                <i class="el-icon-arrow-down el-icon--right" />
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item
-                  v-for="(prop, index) in item.props"
-                  :key="item.type + prop + index"
-                  :command="index"
-                >
-                  {{ item.labels[index] }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-            <component
-              :is="{
-                input: 'el-input',
-                number: 'el-input',
-                password: 'el-input',
-                tel: 'el-input',
-                email: 'el-input',
-                url: 'el-input',
-                search: 'el-input',
-                autocomplete: 'el-autocomplete',
-                count: 'el-input-number',
-                select: 'el-select',
-                time: 'el-time-picker',
-                date: 'el-date-picker',
-                dates: 'el-date-picker',
-                datetime: 'el-date-picker',
-                month: 'el-date-picker',
-                year: 'el-date-picker',
-                radio: 'el-radio-group',
-                checkbox: 'el-checkbox-group',
-                switch: 'el-switch',
-                rate: 'el-rate',
-                color: 'el-color-picker'
-              }[item.type]"
-              v-model="getFrom(item)[item.props[note[item.id] || 0]]"
-              v-bind="getAttrs('single-result-component-item', item)"
-              v-on="item.events"
-            >
-              <template v-if="['select', 'radio', 'checkbox'].includes(item.type) && item.options && item.id">
-                <el-form-model-options :item="item">
-                  <template v-slot="{ option }">
-                    <span v-if="option.type === 'slot'">
-                      <slot
-                        :name="option.label"
-                        :label="option.label"
-                        :value="option.value"
-                      />
-                    </span>
-                    <span v-else>{{ option.label }}</span>
-                  </template>
-                </el-form-model-options>
-              </template>
-            </component>
-          </div>
-
-          <!-- multiple-result-component-item -->
+            <span class="el-dropdown-link">
+              {{ item.labels[note[item.id] || 0] }}
+              <i class="el-icon-arrow-down el-icon--right" />
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="(prop, index) in item.props"
+                :key="item.type + prop + index"
+                :command="index"
+              >
+                {{ item.labels[index] }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <component
-            v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
-            :is="'el-date-picker'"
-            v-model="note[item.id]"
-            v-bind="getAttrs('multiple-result-component-item', item)"
-            v-on="item.events"
-            @change="onChangeProps($event, item)"
-          />
-
-          <!-- single-result-component-item -->
-          <component
-            v-else
             :is="{
               input: 'el-input',
               number: 'el-input',
@@ -137,11 +78,9 @@
               email: 'el-input',
               url: 'el-input',
               search: 'el-input',
-              textarea: 'el-input',
               autocomplete: 'el-autocomplete',
               count: 'el-input-number',
               select: 'el-select',
-              cascader: 'el-cascader',
               time: 'el-time-picker',
               date: 'el-date-picker',
               dates: 'el-date-picker',
@@ -151,11 +90,10 @@
               radio: 'el-radio-group',
               checkbox: 'el-checkbox-group',
               switch: 'el-switch',
-              slider: 'el-slider',
               rate: 'el-rate',
               color: 'el-color-picker'
             }[item.type]"
-            v-model="getFrom(item)[item.prop]"
+            v-model="getFrom(item)[item.props[note[item.id] || 0]]"
             v-bind="getAttrs('single-result-component-item', item)"
             v-on="item.events"
           >
@@ -174,16 +112,74 @@
               </el-form-model-options>
             </template>
           </component>
-
-          <!-- after slot -->
-          <slot
-            :name="item.afterSlot"
-            :item="item"
-            :index="index"
-            :formRef="formRef"
-          />
-
         </div>
+
+        <!-- multiple-result-component-item -->
+        <component
+          v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
+          :is="'el-date-picker'"
+          v-model="note[item.id]"
+          v-bind="getAttrs('multiple-result-component-item', item)"
+          v-on="item.events"
+          @change="onChangeProps($event, item)"
+        />
+
+        <!-- single-result-component-item -->
+        <component
+          v-else
+          :is="{
+            input: 'el-input',
+            number: 'el-input',
+            password: 'el-input',
+            tel: 'el-input',
+            email: 'el-input',
+            url: 'el-input',
+            search: 'el-input',
+            textarea: 'el-input',
+            autocomplete: 'el-autocomplete',
+            count: 'el-input-number',
+            select: 'el-select',
+            cascader: 'el-cascader',
+            time: 'el-time-picker',
+            date: 'el-date-picker',
+            dates: 'el-date-picker',
+            datetime: 'el-date-picker',
+            month: 'el-date-picker',
+            year: 'el-date-picker',
+            radio: 'el-radio-group',
+            checkbox: 'el-checkbox-group',
+            switch: 'el-switch',
+            slider: 'el-slider',
+            rate: 'el-rate',
+            color: 'el-color-picker'
+          }[item.type]"
+          v-model="getFrom(item)[item.prop]"
+          v-bind="getAttrs('single-result-component-item', item)"
+          v-on="item.events"
+        >
+          <template v-if="['select', 'radio', 'checkbox'].includes(item.type) && item.options && item.id">
+            <el-form-model-item-options :item="item">
+              <template v-slot="{ option }">
+                <span v-if="option.type === 'slot'">
+                  <slot
+                    :name="option.label"
+                    :label="option.label"
+                    :value="option.value"
+                  />
+                </span>
+                <span v-else>{{ option.label }}</span>
+              </template>
+            </el-form-model-item-options>
+          </template>
+        </component>
+
+        <!-- after slot -->
+        <slot
+          :name="item.afterSlot"
+          :item="item"
+          :index="index"
+          :formRef="formRef"
+        />
 
       </el-form-item>
 
@@ -225,13 +221,13 @@
 <script>
 import Utils from './utils.js'
 import ElFormModelItem from './components/ElFormModelItem.vue'
-import ElFormModelOptions from './components/ElFormModelOptions.vue'
+import ElFormModelItemOptions from './components/ElFormModelItemOptions.vue'
 
 export default {
   name: 'ElFormModel',
   components: {
     ElFormModelItem,
-    ElFormModelOptions
+    ElFormModelItemOptions
   },
   props: {
     data: {
@@ -253,8 +249,7 @@ export default {
     return {
       note: {},
       groups: [],
-      formRef: {},
-      activeItem: {}
+      formRef: {}
     }
   },
   computed: {
@@ -455,33 +450,38 @@ export default {
     },
     onAddGroup(prop, index) {
       const group = this.groups.find(group => group.prop === prop)
-      if (group && Utils.getPrototype(group.children) === 'array') {
+      if (group) {
         const rowIndex = Utils.getPrototype(index) === 'number' ? index : group.rowNumber
-        const items = group.children.map(item => item = { ...item, group: prop, rowIndex })
-        const newItems = Utils.deepClone(items)
-        const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
-        const insertIndex = firstIndex + 1 + rowIndex * group.children.length
-        this.items.splice(insertIndex, 0, ...newItems)
-        if (Utils.getPrototype(index) !== 'number') {
-          this.data[prop].push({})
+        const children = Utils.getPrototype(group.children).indexOf('function') !== -1
+          ? group.children(prop, rowIndex)
+          : group.children
+        if (Utils.getPrototype(children) === 'array') {
+          const items = children.map(item => item = { ...item, group: prop, rowIndex })
+          const newItems = Utils.deepClone(items)
+          const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
+          const insertIndex = firstIndex + 1 + rowIndex * children.length
+          this.items.splice(insertIndex, 0, ...newItems)
+          if (Utils.getPrototype(index) !== 'number') {
+            this.data[prop].push({})
+          }
+          group.rowNumber++
         }
-        group.rowNumber++
       }
     },
     onDelGroup(prop, index) {
       const group = this.groups.find(group => group.prop === prop)
-      if (group && Utils.getPrototype(group.children) === 'array' && Utils.getPrototype(index) === 'number') {
-        const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
-        const insertIndex = firstIndex + 1 + (group.rowNumber - 1) * group.children.length
-        this.items.splice(insertIndex, group.children.length)
-        this.data[prop].splice(index, 1)
-        group.rowNumber--
-      }
-    },
-    onActiveItemChange(item, index) {
-      if (item.id !== this.activeItem.id) {
-        this.activeItem = item
-        this.$emit('active-item-change', item, index)
+      if (group) {
+        const rowIndex = Utils.getPrototype(index) === 'number' ? index : group.rowNumber
+        const children = Utils.getPrototype(group.children).indexOf('function') !== -1
+          ? group.children(prop, rowIndex)
+          : group.children
+        if (Utils.getPrototype(children) === 'array') {
+          const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
+          const insertIndex = firstIndex + 1 + (group.rowNumber - 1) * children.length
+          this.items.splice(insertIndex, children.length)
+          this.data[prop].splice(rowIndex, 1)
+          group.rowNumber--
+        }
       }
     },
     onDropdownLabel(val, key, item) {
