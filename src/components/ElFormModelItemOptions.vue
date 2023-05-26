@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'ElFormModelOptions',
+  name: 'ElFormModelItemOptions',
   props: {
     item: {
       type: Object,
