@@ -718,7 +718,7 @@ export default {
       }, {
         prop: 'myGroup',
         type: 'group',
-        children: (groupProp, rowIndex) => {
+        groupChildren: (prop, index) => {
           return [{
             label: '标题',
             prop: 'title',
