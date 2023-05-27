@@ -77,7 +77,7 @@
 
 <script>
 import Utils from './utils.js'
-import ElFormModelItem from './components/ElFormModelItem.vue'
+import ElFormModelItem from './components/item.vue'
 
 export default {
   name: 'ElFormModel',

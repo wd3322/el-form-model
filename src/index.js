@@ -1,5 +1,5 @@
 import Utils from './utils.js'
-import ElFormModel from './ElFormModel.vue'
+import ElFormModel from './main.vue'
 import DefaultAttrs from './attrs'
 import './index.scss'
 

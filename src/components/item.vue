@@ -168,8 +168,8 @@
 </template>
 
 <script>
-import ElFormModelItemRender from './ElFormModelItemRender.vue'
-import ElFormModelItemOptions from './ElFormModelItemOptions.vue'
+import ElFormModelItemRender from './item-render.vue'
+import ElFormModelItemOptions from './item-options.vue'
 
 export default {
   name: 'ElFormModelItem',
