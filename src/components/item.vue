@@ -33,7 +33,10 @@
       class="input-with-dropdown"
     >
       <el-dropdown
+        size="medium"
         placement="bottom-start"
+        :show-timeout="50"
+        :hide-timeout="50"
         @command="onDropdownLabel($event, item.id, item)"
       >
         <span class="el-dropdown-link">
