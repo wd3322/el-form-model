@@ -1,7 +1,7 @@
 import Utils from './utils.js'
 import ElFormModel from './main.vue'
 import DefaultAttrs from './attrs'
-import './index.scss'
+import './style.scss'
 
 export default {
   install(Vue, attrs = {}) {
