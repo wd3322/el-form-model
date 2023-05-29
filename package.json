@@ -1,22 +1,31 @@
 {
   "name": "el-form-model",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "vue element form to json",
   "main": "lib/index.js",
+  "typings": "src/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "vue",
+    "element",
+    "form",
+    "form-model",
+    "el-form-model"
+  ],
+  "homepage": "http://wd3322.gitee.io/el-model",
   "repository": {
     "type": "git",
     "url": "https://github.com/wd3322/el-form-model"
   },
+  "author": "wd",
+  "license": "MIT",
   "scripts": {
     "clean": "npx rimraf node_modules",
     "build": "webpack --config webpack.config.js"
   },
-  "keywords": [
-    "vue element form to json",
-    "vue element form to object"
-  ],
-  "author": "wd",
-  "license": "ISC",
   "dependencies": {
     "core-js": "^3.16.0",
     "vue": "^2.7.14",
