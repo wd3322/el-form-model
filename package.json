@@ -1,6 +1,6 @@
 {
   "name": "el-form-model",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "vue element form to json",
   "main": "lib/index.js",
   "typings": "src/index.d.ts",

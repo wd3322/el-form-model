@@ -12,7 +12,7 @@
       > .el-form-item {
         display: inline-flex;
         flex-direction: column;
-        /deep/ .el-form-item__label {
+        ::v-deep .el-form-item__label {
           line-height: 20px;
         }
       }

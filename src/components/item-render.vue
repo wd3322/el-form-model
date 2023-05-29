@@ -19,7 +19,7 @@ export default {
     renderContent: {
       type: Function,
       required: true,
-      default: () => {}
+      default: () => ({})
     }
   },
   render(createElement) {

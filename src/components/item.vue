@@ -43,15 +43,17 @@
           {{ item.labels[note[item.id] || 0] }}
           <i class="el-icon-arrow-down el-icon--right" />
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="(prop, index) in item.props"
-            :key="item.type + prop + index"
-            :command="index"
-          >
-            {{ item.labels[index] }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
+        <template v-slot:dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              v-for="(prop, index) in item.props"
+              :key="item.type + prop + index"
+              :command="index"
+            >
+              {{ item.labels[index] }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
       <component
         :is="{
@@ -209,12 +211,12 @@ export default {
     getForm: {
       type: Function,
       required: true,
-      default: () => {}
+      default: () => ({})
     },
     getAttrs: {
       type: Function,
       required: true,
-      default: () => {}
+      default: () => ({})
     }
   },
   methods: {
