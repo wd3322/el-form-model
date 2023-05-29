@@ -3,7 +3,7 @@ import ElFormModel from './main.vue'
 import DefaultAttrs from './attrs'
 import './index.scss'
 
-const Loading = {
+export default {
   install(Vue, attrs = {}) {
     const errorHeader = 'el-form-model install config'
     if (Utils.getPrototype(attrs) !== 'object') {
@@ -35,5 +35,3 @@ const Loading = {
     Vue.component('el-form-model', ElFormModel)
   }
 }
-
-export default Loading
