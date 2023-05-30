@@ -287,10 +287,9 @@ export default {
           ? group.groupChildren(prop, rowIndex)
           : group.groupChildren
         if (Utils.getPrototype(children) === 'array') {
-          const items = children.map(item => {
+          const newItems = children.map(item => {
             return { ...item, group: prop, rowIndex }
           })
-          const newItems = Utils.deepClone(items)
           const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
           const insertIndex = firstIndex + 1 + rowIndex * children.length
           this.items.splice(insertIndex, 0, ...newItems)
