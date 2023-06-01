@@ -7,7 +7,7 @@
         checkbox: 'el-checkbox'
       }[item.type]"
       v-for="(option, optionIndex) in item.options.filter(item => !item.hidden)"
-      :key="`${item.id}.${option.value}.${optionIndex}`"
+      :key="`${getProp(item)}.${option.value}.${optionIndex}`"
       v-bind="{
         ...option,
         label: item.type === 'select' ? option.label : option.value,
@@ -25,6 +25,11 @@ export default {
   props: {
     item: {
       type: Object,
+      required: true,
+      default: () => ({})
+    },
+    getProp: {
+      type: Function,
       required: true,
       default: () => ({})
     }

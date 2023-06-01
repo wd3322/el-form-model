@@ -18,12 +18,13 @@
           [item.className]: item.className
         }"
         :style="{ width: !$attrs.inline ? item.width : null }"
-        :key="item.id"
+        :key="`${getProp(item)}.${index}`"
         :item="item"
         :index="index"
         :data="data"
         :note="note"
         :formRef="formRef"
+        :get-prop="getProp"
         :get-form="getForm"
         :get-attrs="getAttrs"
       >
@@ -51,8 +52,8 @@
 
       <!-- button slot -->
       <el-form-item
-        class="button"
         v-if="buttons.length > 0 || $scopedSlots.button"
+        class="button"
       >
         <slot
           name="button"
@@ -179,7 +180,7 @@ export default {
                       ? select
                       : ''
               return item.labelMultiple
-                ? tip + (item.labels[this.note[item.id] || 0] || '')
+                ? tip + (item.labels[this.note[item.prop] || 0] || '')
                 : tip + (item.label || '')
             } else {
               return ''
@@ -224,9 +225,6 @@ export default {
       this.groups = this.items.filter(item => item.type === 'group')
       for (const item of this.items) {
         // set item info
-        if (!item.id) {
-          item.id = (item.prop || item.type || 'item') + '.' + URL.createObjectURL(new Blob()).substr(-36)
-        }
         if (['daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple) {
           if (Utils.getPrototype(item.labels) !== 'array') {
             item.labels = []
@@ -247,11 +245,12 @@ export default {
               }
             }
           }
-          if (!item.prop && ['daterange', 'datetimerange', 'monthrange'].includes(item.type)) {
-            item.prop = item.props.join('-') || item.id
-          }
-          if (!item.prop && item.labelMultiple) {
-            item.prop = item.props[0]
+          if (
+            !item.prop &&
+            item.props.length > 0 && 
+            (['daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple)
+          ) {
+            item.prop = item.props.join('-')
           }
         }
         // set array data
@@ -267,7 +266,7 @@ export default {
         }
         // set range data
         if (['daterange', 'datetimerange', 'monthrange'].includes(item.type)) {
-          this.$set(this.note, item.id, ((item) => {
+          this.$set(this.note, item.prop, ((item) => {
             const result = []
             for (const prop of item.props || []) {
               const value = this.getForm(item)[prop]
