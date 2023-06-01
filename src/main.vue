@@ -61,7 +61,7 @@
           <div v-if="buttons.length > 0">
             <el-button
               v-for="(item, index) in buttons"
-              :key="item.text + index"
+              :key="`${item.text}.${index}`"
               v-bind="getAttrs('button-item', item)"
               @click="onClickButton(item, formRef)"
             >
@@ -108,7 +108,7 @@ export default {
     }
   },
   computed: {
-    apiChange() {
+    attrsChange() {
       return {
         data: this.data,
         items: this.items
@@ -116,9 +116,9 @@ export default {
     }
   },
   watch: {
-    apiChange: {
+    attrsChange: {
       handler(nVal) {
-        this.setParams()
+        this.setAttrs()
       },
       immediate: true,
       deep: true
@@ -147,7 +147,11 @@ export default {
         }
       } else if (type === 'form-item') {
         result = {
-          ...item,
+          ...Utils.resetPropertys({
+            obj: item,
+            type: 'include',
+            keys: ['label', 'label-width', 'labelWidth', 'required', 'rules', 'error', 'show-message', 'showMessage', 'inline-message', 'inlineMessage', 'size']
+          }),
           prop: this.getProp(item)
         }
       } else if (type === 'multiple-result-component-item') {
@@ -157,7 +161,11 @@ export default {
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
-          ...item
+          ...Utils.resetPropertys({
+            obj: item,
+            type: 'exclude',
+            keys: ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'renderContent', 'className']
+          })
         }
       } else if (type === 'single-result-component-item') {
         result = {
@@ -182,22 +190,42 @@ export default {
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
-          ...item
+          ...Utils.resetPropertys({
+            obj: item,
+            type: 'exclude',
+            keys: (() => {
+              const keys = ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'renderContent', 'className']
+              if (['count', 'select', 'cascader', 'time', 'radio', 'checkbox', 'switch', 'slider', 'rate', 'color'].includes(item.type)) {
+                keys.push('type')
+              }
+              if (['select', 'radio', 'checkbox'].includes(item.type)) {
+                keys.push('options')
+              }
+              if (['cascader'].includes(item.type)) {
+                keys.splice(keys.indexOf('props'), 1)
+              }
+              return keys
+            })()
+          })
         }
       } else if (type === 'button-item') {
         result = {
           size: 'medium',
-          ...item
+          ...Utils.resetPropertys({
+            obj: item,
+            type: 'include',
+            keys: ['size', 'type', 'plain', 'round', 'circle', 'loading', 'disabled', 'icon', 'autofocus', 'native-type', 'nativeType']
+          })
         }
       }
       return result
     },
-    setParams() {
+    setAttrs() {
       this.groups = this.items.filter(item => item.type === 'group')
       for (const item of this.items) {
         // set item info
         if (!item.id) {
-          item.id = (item.type || 'item') + '-' + URL.createObjectURL(new Blob()).substr(-36)
+          item.id = (item.prop || item.type || 'item') + '.' + URL.createObjectURL(new Blob()).substr(-36)
         }
         if (['daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple) {
           if (Utils.getPrototype(item.labels) !== 'array') {
@@ -287,12 +315,13 @@ export default {
           ? group.groupChildren(prop, rowIndex)
           : group.groupChildren
         if (Utils.getPrototype(children) === 'array') {
-          const newItems = children.map(item => {
-            return { ...item, group: prop, rowIndex }
-          })
+          for (const child of children) {
+            child.group = prop
+            child.rowIndex = rowIndex
+          }
           const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
           const insertIndex = firstIndex + 1 + rowIndex * children.length
-          this.items.splice(insertIndex, 0, ...newItems)
+          this.items.splice(insertIndex, 0, ...children)
           if (Utils.getPrototype(index) !== 'number') {
             this.data[prop].push({})
           }

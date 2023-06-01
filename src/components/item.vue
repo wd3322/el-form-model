@@ -46,11 +46,11 @@
         <template v-slot:dropdown>
           <el-dropdown-menu>
             <el-dropdown-item
-              v-for="(prop, index) in item.props"
-              :key="item.type + prop + index"
-              :command="index"
+              v-for="(prop, propIndex) in item.props"
+              :key="`${item.id}.${prop}.${propIndex}`"
+              :command="propIndex"
             >
-              {{ item.labels[index] }}
+              {{ item.labels[propIndex] }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
