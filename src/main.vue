@@ -165,7 +165,7 @@ export default {
           ...Utils.resetPropertys({
             obj: item,
             type: 'exclude',
-            keys: ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'renderContent', 'className']
+            keys: ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'className', 'labelSlot', 'beforeSlot', 'afterSlot', 'renderContent']
           })
         }
       } else if (type === 'single-result-component-item') {
@@ -195,7 +195,7 @@ export default {
             obj: item,
             type: 'exclude',
             keys: (() => {
-              const keys = ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'renderContent', 'className']
+              const keys = ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'className', 'labelSlot', 'beforeSlot', 'afterSlot', 'renderContent']
               if (['count', 'select', 'cascader', 'time', 'radio', 'checkbox', 'switch', 'slider', 'rate', 'color'].includes(item.type)) {
                 keys.push('type')
               }
