@@ -72,6 +72,7 @@
       <component
         :is="{
           input: 'el-input',
+          text: 'el-input',
           number: 'el-input',
           password: 'el-input',
           tel: 'el-input',
@@ -130,6 +131,7 @@
       v-else
       :is="{
         input: 'el-input',
+        text: 'el-input',
         number: 'el-input',
         password: 'el-input',
         tel: 'el-input',
