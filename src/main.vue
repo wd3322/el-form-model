@@ -234,7 +234,7 @@ export default {
           }
           if (Utils.getPrototype(item.rules) === 'array') {
             const requiredRule = item.rules.find(rule => rule.required)
-            if (!requiredRule.validator) {
+            if (requiredRule && Utils.getPrototype(requiredRule.validator).indexOf('function') === -1) {
               requiredRule.validator = (rule, value, callback) => {
                 const notValue = item.props.every(prop => !this.getForm(item)[prop])
                 if (notValue) {
