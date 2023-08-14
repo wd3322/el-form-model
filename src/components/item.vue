@@ -120,7 +120,7 @@
     <component
       v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
       :is="'el-date-picker'"
-      v-model="note[item.prop]"
+      v-model="getForm(item)[item.prop]"
       v-bind="getAttrs('multiple-result-component-item', item)"
       v-on="item.events"
       @change="onChangeProps($event, item)"

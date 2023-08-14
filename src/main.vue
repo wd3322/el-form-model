@@ -245,11 +245,7 @@ export default {
               }
             }
           }
-          if (
-            !item.prop &&
-            item.props.length > 0 && 
-            (['daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple)
-          ) {
+          if (!item.prop && item.props.length > 0) {
             item.prop = item.props.join('-')
           }
         }
@@ -265,8 +261,11 @@ export default {
           this.$set(this.getForm(item), item.prop, [])
         }
         // set range data
-        if (['daterange', 'datetimerange', 'monthrange'].includes(item.type)) {
-          this.$set(this.note, item.prop, ((item) => {
+        if (
+          ['daterange', 'datetimerange', 'monthrange'].includes(item.type) &&
+          Utils.getPrototype(this.getForm(item)[item.prop]) !== 'array'
+        ) {
+          this.$set(this.getForm(item), item.prop, (() => {
             const result = []
             for (const prop of item.props || []) {
               const value = this.getForm(item)[prop]
@@ -276,7 +275,7 @@ export default {
               }
             }
             return result
-          })(item))
+          })())
         }
       }
       for (const group of this.groups) {
@@ -310,9 +309,7 @@ export default {
       const group = this.groups.find(group => group.prop === prop)
       if (group) {
         const rowIndex = Utils.getPrototype(index) === 'number' ? index : group.rowNumber
-        const children = Utils.getPrototype(group.groupChildren).indexOf('function') !== -1
-          ? group.groupChildren(prop, rowIndex)
-          : group.groupChildren
+        const children = Utils.getPrototype(group.groupChildren).indexOf('function') !== -1 && group.groupChildren(prop, rowIndex)
         if (Utils.getPrototype(children) === 'array') {
           for (const child of children) {
             child.group = prop
@@ -332,9 +329,7 @@ export default {
       const group = this.groups.find(group => group.prop === prop)
       if (group) {
         const rowIndex = Utils.getPrototype(index) === 'number' ? index : group.rowNumber
-        const children = Utils.getPrototype(group.groupChildren).indexOf('function') !== -1
-          ? group.groupChildren(prop, rowIndex)
-          : group.groupChildren
+        const children = Utils.getPrototype(group.groupChildren).indexOf('function') !== -1 && group.groupChildren(prop, rowIndex)
         if (Utils.getPrototype(children) === 'array') {
           const firstIndex = this.items.findIndex(item => item.type === 'group' && item.prop === prop)
           const insertIndex = firstIndex + 1 + (group.rowNumber - 1) * children.length
