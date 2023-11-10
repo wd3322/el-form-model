@@ -85,6 +85,7 @@ import {
   Autocomplete as ElAutocomplete,
   InputNumber as ElInputNumber,
   Select as ElSelect,
+  Cascader as ElCascader,
   TimePicker as ElTimePicker,
   DatePicker as ElDatePicker,
   RadioGroup as ElRadioGroup,
@@ -92,7 +93,7 @@ import {
   Switch as ElSwitch,
   Slider as ElSlider,
   Rate as ElRate,
-  ColorPicker as ElColorPicker,
+  ColorPicker as ElColorPicker
 } from 'element-ui'
 
 import Utils from './utils.js'
@@ -210,9 +211,11 @@ export default {
             email: ElInput,
             url: ElInput,
             search: ElInput,
+            textarea: ElInput,
             autocomplete: ElAutocomplete,
             count: ElInputNumber,
             select: ElSelect,
+            cascader: ElCascader,
             time: ElTimePicker,
             date: ElDatePicker,
             dates: ElDatePicker,
