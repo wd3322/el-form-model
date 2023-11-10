@@ -77,6 +77,24 @@
 </template>
 
 <script>
+import {
+  Form as ElForm,
+  FormItem as ElFormItem,
+  Button as ElButton,
+  Input as ElInput,
+  Autocomplete as ElAutocomplete,
+  InputNumber as ElInputNumber,
+  Select as ElSelect,
+  TimePicker as ElTimePicker,
+  DatePicker as ElDatePicker,
+  RadioGroup as ElRadioGroup,
+  CheckboxGroup as ElCheckboxGroup,
+  Switch as ElSwitch,
+  Slider as ElSlider,
+  Rate as ElRate,
+  ColorPicker as ElColorPicker,
+} from 'element-ui'
+
 import Utils from './utils.js'
 import ElFormModelItem from './components/item.vue'
 
@@ -144,15 +162,11 @@ export default {
               ? this.defaultAttrs.component.form(this)
               : this.defaultAttrs.component.form
           ),
-          ...this.$attrs
+          ...Utils.resetPropertys(this.$attrs, ElForm)
         }
       } else if (type === 'form-item') {
         result = {
-          ...Utils.resetPropertys({
-            obj: item,
-            type: 'include',
-            keys: ['label', 'label-width', 'labelWidth', 'required', 'rules', 'error', 'show-message', 'showMessage', 'inline-message', 'inlineMessage', 'size']
-          }),
+          ...Utils.resetPropertys(item, ElFormItem),
           prop: this.getProp(item)
         }
       } else if (type === 'multiple-result-component-item') {
@@ -162,11 +176,7 @@ export default {
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
-          ...Utils.resetPropertys({
-            obj: item,
-            type: 'exclude',
-            keys: ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'className', 'labelSlot', 'beforeSlot', 'afterSlot', 'renderContent']
-          })
+          ...Utils.resetPropertys(item, ElDatePicker)
         }
       } else if (type === 'single-result-component-item') {
         result = {
@@ -191,32 +201,36 @@ export default {
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
-          ...Utils.resetPropertys({
-            obj: item,
-            type: 'exclude',
-            keys: (() => {
-              const keys = ['id', 'label', 'labels', 'prop', 'props', 'rules', 'events', 'width', 'hidden', 'group', 'groupChildren', 'rowIndex', 'className', 'labelSlot', 'beforeSlot', 'afterSlot', 'renderContent']
-              if (['count', 'select', 'cascader', 'time', 'radio', 'checkbox', 'switch', 'slider', 'rate', 'color'].includes(item.type)) {
-                keys.push('type')
-              }
-              if (['select', 'radio', 'checkbox'].includes(item.type)) {
-                keys.push('options')
-              }
-              if (['cascader'].includes(item.type)) {
-                keys.splice(keys.indexOf('props'), 1)
-              }
-              return keys
-            })()
-          })
+          ...Utils.resetPropertys(item, {
+            input: ElInput,
+            text: ElInput,
+            number: ElInput,
+            password: ElInput,
+            tel: ElInput,
+            email: ElInput,
+            url: ElInput,
+            search: ElInput,
+            autocomplete: ElAutocomplete,
+            count: ElInputNumber,
+            select: ElSelect,
+            time: ElTimePicker,
+            date: ElDatePicker,
+            dates: ElDatePicker,
+            datetime: ElDatePicker,
+            month: ElDatePicker,
+            year: ElDatePicker,
+            radio: ElRadioGroup,
+            checkbox: ElCheckboxGroup,
+            switch: ElSwitch,
+            slider: ElSlider,
+            rate: ElRate,
+            color: ElColorPicker
+          }[item.type])
         }
       } else if (type === 'button-item') {
         result = {
           size: 'medium',
-          ...Utils.resetPropertys({
-            obj: item,
-            type: 'include',
-            keys: ['size', 'type', 'plain', 'round', 'circle', 'loading', 'disabled', 'icon', 'autofocus', 'native-type', 'nativeType']
-          })
+          ...Utils.resetPropertys(item, ElButton)
         }
       }
       return result
