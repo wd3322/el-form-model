@@ -10,6 +10,9 @@ export default {
       if (Utils.getPrototype(attrs) !== 'object') {
         throw new Error(`${errorHeader} is not a object`)
       }
+      if (Utils.getPrototype(attrs.ui) !== 'object') {
+        throw new Error(`${errorHeader} 'ui' is not a object`)
+      }
       if (Utils.getPrototype(attrs.global) !== 'object') {
         throw new Error(`${errorHeader} 'global' is not a object`)
       }
