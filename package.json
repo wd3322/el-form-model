@@ -9,11 +9,12 @@
     "src"
   ],
   "keywords": [
+    "el form",
+    "el-form-model",
+    "form-model",
     "vue",
     "element",
-    "form",
-    "form-model",
-    "el-form-model"
+    "form"
   ],
   "homepage": "http://wd3322.gitee.io/el-model",
   "repository": {
