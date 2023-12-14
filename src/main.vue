@@ -222,7 +222,7 @@ export default {
     getProps(item, component) {
       let result = {}
       if (component && component.props && typeof component.props === 'object') {
-        const props = Object.keys(component.props)
+        let props = Object.keys(component.props)
         if (['ElInput', 'ElAutocomplete'].includes(component.name)) {
           props.push(...['maxlength', 'minlength', 'autocomplete', 'name', 'readonly', 'max', 'min', 'step', 'autofocus', 'form'])
         }
@@ -236,6 +236,7 @@ export default {
             }
           }
         }
+        props = Array.from(new Set(props))
         for (const prop in item) {
           if (props.includes(Utils.convertHumpStr(prop)) || prop.split('-')[0] === 'data') {
             result[prop] = item[prop]
