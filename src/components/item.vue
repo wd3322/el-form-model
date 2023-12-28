@@ -29,7 +29,7 @@
       :render-content="item.renderContent"
       :item="item"
       :index="index"
-      :value="data[item.prop]"
+      :value="getForm(item)[item.prop]"
     />
 
     <!-- slot type -->
