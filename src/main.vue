@@ -236,7 +236,7 @@ export default {
             }
           }
         }
-        props = Array.from(new Set(props))
+        props = props.filter((prop, index) => props.indexOf(prop) === index)
         for (const prop in item) {
           if (props.includes(Utils.convertHumpStr(prop)) || prop.split('-')[0] === 'data') {
             result[prop] = item[prop]
