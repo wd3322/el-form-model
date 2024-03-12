@@ -229,6 +229,9 @@ export default {
         if (['ElInputNumber', 'ElTimePicker', 'ElDatePicker', 'ElCheckboxGroup', 'ElRadioGroup'].includes(component.name)) {
           props.push('name')
         }
+        if (['ElInput', 'ElAutocomplete', 'ElInputNumber', 'ElSelect', 'ElCascader', 'ElDatePicker'].includes(component.name)) {
+          props.push('placeholder')
+        }
         if (component.mixins && Array.isArray(component.mixins)) {
           for (const mixin of component.mixins) {
             if (mixin && mixin.props && typeof mixin.props === 'object') {
