@@ -165,12 +165,13 @@
         :item="item"
         :get-prop="getProp"
       >
-        <template v-slot="{ option }">
-          <span v-if="option.type === 'slot'">
+        <template v-slot="{ option, index }">
+          <span v-if="option.slot">
             <slot
-              :name="option.label"
-              :label="option.label"
-              :value="option.value"
+              :name="option.slot"
+              :option="option"
+              :index="index"
+              :formRef="formRef"
             />
           </span>
           <span v-else>{{ option.label }}</span>

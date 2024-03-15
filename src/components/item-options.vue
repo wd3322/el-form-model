@@ -14,7 +14,10 @@
         value: item.type === 'select' ? option.value : null
       }"
     >
-      <slot :option="option" />
+      <slot
+        :option="option"
+        :index="optionIndex"
+      />
     </component>
   </div>
 </template>
