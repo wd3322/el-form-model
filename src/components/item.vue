@@ -35,7 +35,7 @@
     <!-- slot type -->
     <slot
       v-else-if="item.type === 'slot'"
-      :name="item.prop"
+      :name="item.defaultSlot || item.prop"
       :item="item"
       :index="index"
       :formRef="formRef"
