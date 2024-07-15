@@ -222,7 +222,7 @@ export default {
     getProps(item, component) {
       let result = {}
       if (component && component.props && typeof component.props === 'object') {
-        let props = Object.keys(component.props)
+        let props = [...Object.keys(component.props), 'key']
         if (['ElInput', 'ElAutocomplete'].includes(component.name)) {
           props.push(...['maxlength', 'minlength', 'autocomplete', 'name', 'readonly', 'max', 'min', 'step', 'autofocus', 'form'])
         }
