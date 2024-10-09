@@ -232,6 +232,9 @@ export default {
         if (['ElInput', 'ElAutocomplete', 'ElInputNumber', 'ElSelect', 'ElCascader', 'ElDatePicker'].includes(component.name)) {
           props.push('placeholder')
         }
+        if (['ElSwitch'].includes(component.name)) {
+          props.indexOf('width') > 0 && props.splice(props.indexOf('width'), 1)
+        }
         if (component.mixins && Array.isArray(component.mixins)) {
           for (const mixin of component.mixins) {
             if (mixin && mixin.props && typeof mixin.props === 'object') {
