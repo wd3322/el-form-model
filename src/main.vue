@@ -158,7 +158,15 @@ export default {
               ? this.defaultAttrs.component.formItem(this, item)
               : this.defaultAttrs.component.formItem
           ),
-          ...this.getProps(item, this.defaultAttrs.ui.DatePicker)
+          ...this.getProps(item, {
+            timerange: this.defaultAttrs.ui.TimePicker,
+            daterange: this.defaultAttrs.ui.DatePicker,
+            datetimerange: this.defaultAttrs.ui.DatePicker,
+            monthrange: this.defaultAttrs.ui.DatePicker
+          }[item.type])
+        }
+        if (item.type === 'timerange') {
+          result.isRange = true
         }
       } else if (type === 'single-result-component-item') {
         result = {
@@ -257,7 +265,7 @@ export default {
       this.groups = this.items.filter(item => item.type === 'group')
       for (const item of this.items) {
         // set item info
-        if (['daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple) {
+        if (['timerange', 'daterange', 'datetimerange', 'monthrange'].includes(item.type) || item.labelMultiple) {
           if (Utils.getPrototype(item.labels) !== 'array') {
             item.labels = []
           }
@@ -294,7 +302,7 @@ export default {
         }
         // set range data
         if (
-          ['daterange', 'datetimerange', 'monthrange'].includes(item.type) &&
+          ['timerange', 'daterange', 'datetimerange', 'monthrange'].includes(item.type) &&
           Utils.getPrototype(this.getForm(item)[item.prop]) !== 'array'
         ) {
           this.$set(this.getForm(item), item.prop, (() => {

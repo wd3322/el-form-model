@@ -126,6 +126,15 @@
       @change="onChangeProps($event, item)"
     />
 
+    <component
+      v-else-if="['timerange'].includes(item.type)"
+      :is="'el-time-picker'"
+      v-model="getForm(item)[item.prop]"
+      v-bind="getAttrs('multiple-result-component-item', item)"
+      v-on="item.events"
+      @change="onChangeProps($event, item)"
+    />
+
     <!-- single result component item -->
     <component
       v-else
