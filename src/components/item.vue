@@ -118,17 +118,13 @@
 
     <!-- multiple result component item -->
     <component
-      v-else-if="['daterange', 'datetimerange', 'monthrange'].includes(item.type)"
-      :is="'el-date-picker'"
-      v-model="getForm(item)[item.prop]"
-      v-bind="getAttrs('multiple-result-component-item', item)"
-      v-on="item.events"
-      @change="onChangeProps($event, item)"
-    />
-
-    <component
-      v-else-if="['timerange'].includes(item.type)"
-      :is="'el-time-picker'"
+      v-else-if="['timerange', 'daterange', 'datetimerange', 'monthrange'].includes(item.type)"
+      :is="{
+        timerange: 'el-time-picker',
+        daterange: 'el-date-picker',
+        datetimerange: 'el-date-picker',
+        monthrange: 'el-date-picker'
+      }[item.type]"
       v-model="getForm(item)[item.prop]"
       v-bind="getAttrs('multiple-result-component-item', item)"
       v-on="item.events"
